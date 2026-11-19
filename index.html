@@ -1,0 +1,2753 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sohib PAI – Teman Setia Perangkat Ajar PAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <!-- JSZip untuk membaca & menghasilkan file Microsoft Word (.docx) OOXML asli -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
+  <!-- PDF.js untuk ekstraksi teks otomatis dari file PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #FCFDFC;
+      --bg-soft: #F6F9F8;
+      --surface: #FFFFFF;
+      --pastel-mint: #EBF6F1;
+      --pastel-cream: #FDF6E9;
+      --pastel-peach: #FDF1EC;
+      --pastel-lavender: #EFF3FB;
+      --emerald: #145344;
+      --sage: #1B7461;
+      --sage-light: #D5EDE4;
+      --gold: #C89B3C;
+      --gold-soft: #F9EED7;
+      --ink: #17332C;
+      --muted: #527068;
+      --line: #DCEAE4;
+      --shadow-soft: 0 10px 28px -8px rgba(20, 83, 68, 0.11);
+      --shadow-card: 0 4px 16px -4px rgba(20, 83, 68, 0.07);
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); font-size: 14.5px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 400 1rem/1.6 "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: "Amiri", "Noto Naskh Arabic", Georgia, serif;
+      font-weight: 700;
+      line-height: 1.24;
+      margin: 0;
+    }
+
+    .wrap { max-width: 1060px; margin: 0 auto; padding: 0 1.2rem; }
+
+    /* 1. MINIMAL TOP NAVBAR (TANPA DUPLIKASI LOGO) */
+    .topbar {
+      background: rgba(252, 253, 252, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 60;
+    }
+
+    .topbar-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0.62rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+
+    .nav-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--pastel-mint);
+      border: 1px solid var(--sage-light);
+      padding: 0.28rem 0.78rem;
+      border-radius: 999px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* 2. COMPACT & PROPORTIONAL HERO SECTION */
+    .hero {
+      background: radial-gradient(circle at 10% 18%, var(--pastel-mint) 0%, transparent 45%),
+                  radial-gradient(circle at 88% 20%, var(--pastel-cream) 0%, transparent 48%),
+                  var(--bg);
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+      padding: 2.1rem 0 2.5rem;
+    }
+
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.42;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    /* SATU IDENTITAS MEREK TUNGGAL */
+    .single-brand-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.55rem 1.05rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .single-brand-title {
+      font-weight: 800;
+      font-size: 1.32rem;
+      color: var(--emerald);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .single-brand-title span { color: var(--sage); }
+
+    .single-brand-sub {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #7A5614;
+      margin-top: 0.12rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.65rem, 3vw, 2.25rem);
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .hero h1 span {
+      color: var(--sage);
+      background: linear-gradient(transparent 64%, var(--pastel-mint) 64%);
+      padding: 0 0.2rem;
+      border-radius: 4px;
+    }
+
+    .hero-tagline {
+      margin: 0.8rem 0 1.15rem;
+      padding: 0.65rem 0.95rem;
+      background: var(--pastel-cream);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #6E4E12;
+      line-height: 1.55;
+      max-width: 36rem;
+    }
+
+    /* AESTHETIC FLOATING STICKY NOTE: ONE DAY ONE AYAT */
+    @keyframes floatNote {
+      0% { transform: rotate(-1deg) translateY(0px); }
+      50% { transform: rotate(1deg) translateY(-6px); }
+      100% { transform: rotate(-1deg) translateY(0px); }
+    }
+
+    .sticky-note-wrap {
+      position: relative;
+      padding-top: 12px;
+      animation: floatNote 6s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .sticky-note-wrap:hover { animation-play-state: paused; }
+
+    .washi-tape {
+      position: absolute;
+      top: 1px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 96px;
+      height: 20px;
+      background: linear-gradient(135deg, rgba(213, 237, 228, 0.92), rgba(249, 238, 215, 0.92));
+      border-left: 2px dashed rgba(27, 116, 97, 0.25);
+      border-right: 2px dashed rgba(27, 116, 97, 0.25);
+      box-shadow: 0 2px 5px rgba(20, 83, 68, 0.08);
+      z-index: 2;
+      border-radius: 3px;
+    }
+
+    .odoa-sticky {
+      background: linear-gradient(180deg, #FFFDF7 0%, #FDF6E7 100%);
+      border: 1.5px solid #EBD6A8;
+      border-radius: 18px 18px 24px 18px;
+      padding: 1.3rem 1.35rem 1.2rem;
+      box-shadow: 0 14px 30px -10px rgba(122, 86, 20, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      position: relative;
+    }
+
+    .odoa-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px dashed #E5CFA0;
+      padding-bottom: 0.45rem;
+    }
+
+    .odoa-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--emerald);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .odoa-arab {
+      font-family: "Amiri", "Noto Naskh Arabic", serif;
+      font-size: 1.3rem;
+      line-height: 2.1;
+      color: var(--ink);
+      direction: rtl;
+      text-align: right;
+      padding: 0.6rem 0.85rem;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      border: 1px solid #EFE0BE;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .odoa-terjemah {
+      font-size: 0.89rem;
+      line-height: 1.58;
+      color: var(--ink);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .odoa-sumber {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #7A5614;
+      background: var(--gold-soft);
+      border: 1px solid #EAD29B;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    .odoa-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.15rem;
+      padding-top: 0.65rem;
+      border-top: 1px dashed #E5CFA0;
+      flex-wrap: wrap;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sticky-note-wrap { animation: none; }
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.38rem;
+      background: linear-gradient(135deg, var(--sage) 0%, var(--emerald) 100%);
+      color: #FFFFFF;
+      border: 1.5px solid transparent;
+      border-radius: 999px;
+      padding: 0.58rem 1.25rem;
+      font: 600 0.88rem "Plus Jakarta Sans", sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .btn:hover:not([disabled]) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px -4px rgba(20, 83, 68, 0.28);
+      filter: brightness(1.03);
+    }
+
+    .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-cream {
+      background: var(--gold-soft);
+      color: #6B4B10;
+      border-color: #E7CE94;
+    }
+    .btn-cream:hover:not([disabled]) { background: #F2DFB6; color: #4D3508; }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+    }
+    .btn-outline:hover:not([disabled]) { background: var(--pastel-mint); border-color: var(--sage); color: var(--emerald); }
+
+    .btn-sm { padding: 0.4rem 0.85rem; font-size: 0.81rem; border-radius: 9px; }
+
+    /* MODAL POP-UP SURAT & TUJUAN PENGEMBANG */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 38, 32, 0.48);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .letter-modal {
+      background: linear-gradient(180deg, #FFFDF8 0%, #FDF7EA 100%);
+      border: 1.5px solid #E8D2A2;
+      border-radius: 22px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 1.75rem 1.85rem;
+      box-shadow: 0 24px 54px rgba(15, 38, 32, 0.24);
+      position: relative;
+      animation: modalPop 0.2s ease-out;
+    }
+
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid #E5CFA0;
+      background: #FFFFFF;
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .modal-close:hover { background: var(--pastel-mint); color: var(--emerald); }
+
+    .letter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--pastel-mint);
+      border: 1px solid var(--sage-light);
+      color: var(--emerald);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.24rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.65rem;
+    }
+
+    .letter-modal h2 {
+      font-size: 1.55rem;
+      color: var(--emerald);
+      margin-bottom: 0.75rem;
+    }
+
+    .letter-body p {
+      font-size: 0.93rem;
+      line-height: 1.68;
+      color: var(--ink);
+      margin: 0 0 0.78rem;
+    }
+
+    .letter-goals {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #EAD7AD;
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      margin: 0.9rem 0;
+    }
+    .letter-goals ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.2rem;
+      font-size: 0.89rem;
+      color: var(--ink);
+    }
+    .letter-goals li { margin-bottom: 0.32rem; }
+
+    .letter-sign {
+      margin-top: 1.1rem;
+      padding-top: 0.85rem;
+      border-top: 1px dashed #E2C894;
+      font-size: 0.9rem;
+      color: #6B4B10;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 1.1rem;
+      right: 1.1rem;
+      z-index: 9999;
+      background: var(--emerald);
+      color: #FFFFFF;
+      border: 1.5px solid var(--gold);
+      border-radius: 12px;
+      padding: 0.68rem 1.05rem;
+      font-size: 0.86rem;
+      font-weight: 500;
+      box-shadow: 0 12px 28px rgba(20, 83, 68, 0.24);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* 3. GENERATOR + A4 PREVIEW BELOW */
+    .studio {
+      padding: 2rem 0 3.2rem;
+      background: var(--bg-soft);
+    }
+
+    .stacked-workspace {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .card-form {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-top: 3.5px solid var(--sage);
+      border-radius: 18px;
+      padding: 1.4rem 1.6rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-form-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .card-form h2 { font-size: 1.48rem; color: var(--emerald); }
+    .sub-lead { font-size: 0.88rem; color: var(--muted); margin: 0.15rem 0 0; }
+
+    /* SINGLE CONTINUOUS FORM SECTIONS */
+    .optional-fold {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.72rem 0.95rem;
+      margin-top: 0.85rem;
+    }
+    .optional-fold summary {
+      font-weight: 700;
+      font-size: 0.87rem;
+      color: var(--emerald);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .optional-fold summary::-webkit-details-marker { display: none; }
+    .optional-fold summary::after {
+      content: "▾";
+      font-size: 0.95rem;
+      color: var(--sage);
+      transition: transform 0.18s ease;
+    }
+    .optional-fold[open] summary::after { transform: rotate(180deg); }
+    .optional-fold-body { margin-top: 0.85rem; }
+
+    /* COMPACT FORM CONTROLS */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+
+    .fg { margin-bottom: 0.8rem; }
+    .fg label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.86rem;
+      margin-bottom: 0.25rem;
+      color: var(--ink);
+    }
+
+    .fg input, .fg select, .fg textarea {
+      font: 400 0.93rem/1.42 "Plus Jakarta Sans", sans-serif;
+      padding: 0.5rem 0.72rem;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #FFFFFF;
+      color: var(--ink);
+      width: 100%;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .fg input:focus, .fg select:focus, .fg textarea:focus {
+      outline: none;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(27, 116, 97, 0.1);
+    }
+
+    .fg input[readonly] { background: var(--pastel-mint); color: var(--emerald); font-weight: 700; }
+
+    /* QUICK TOPIC CHIPS */
+    .quick-topics-bar {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.38rem;
+      margin-bottom: 0.95rem;
+      padding: 0.52rem 0.75rem;
+      background: var(--pastel-cream);
+      border: 1px solid #F0DFBA;
+      border-radius: 10px;
+    }
+    .quick-topics-label { font-size: 0.8rem; font-weight: 700; color: #7A5614; margin-right: 0.2rem; }
+    .topic-chip {
+      border: 1px solid #E5CE9E;
+      background: #FFFFFF;
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.2rem 0.62rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .topic-chip:hover { background: var(--sage); color: #FFFFFF; border-color: var(--sage); }
+
+    /* PANEL KHUSUS LKPD & PANEL KHUSUS ASESMEN */
+    .lkpd-studio-panel {
+      background: linear-gradient(135deg, #FDF9F0 0%, #F2FAF6 100%);
+      border: 1.5px solid #DFCFA8;
+      border-radius: 14px;
+      padding: 0.95rem 1.05rem;
+      margin-bottom: 0.95rem;
+    }
+    .asesmen-studio-panel {
+      background: linear-gradient(135deg, #F0F5FD 0%, #F2FAF6 100%);
+      border: 1.5px solid #C5D6EE;
+      border-radius: 14px;
+      padding: 0.95rem 1.05rem;
+      margin-bottom: 0.95rem;
+    }
+    .lkpd-studio-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px dashed #DFCFA8;
+    }
+    .asesmen-studio-panel .lkpd-studio-header {
+      border-bottom-color: #C5D6EE;
+    }
+    .lkpd-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--gold-soft);
+      border: 1px solid #E4C684;
+      color: #6E4E12;
+      font-size: 0.77rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+    .asesmen-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #E5EFFD;
+      border: 1px solid #B7CEEF;
+      color: #1D4ED8;
+      font-size: 0.77rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+    .lkpd-search-box {
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 0.78rem 0.88rem;
+      margin-top: 0.65rem;
+    }
+    .lkpd-search-bar {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.4rem;
+    }
+    .lkpd-search-bar input {
+      flex: 1;
+      min-width: 180px;
+      font: 400 0.88rem "Plus Jakarta Sans", sans-serif;
+      padding: 0.44rem 0.7rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--ink);
+    }
+    .spinner-inline {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #FFFFFF;
+      border-radius: 50%;
+      animation: spinLoader 0.7s linear infinite;
+    }
+    @keyframes spinLoader { to { transform: rotate(360deg); } }
+
+    /* UNIFIED SINGLE FILE UPLOADER ("Pilih File") */
+    .upload-zone {
+      border: 1.5px dashed var(--sage);
+      background: linear-gradient(135deg, var(--pastel-mint) 0%, #F7FCFA 100%);
+      border-radius: 12px;
+      padding: 0.75rem 0.9rem;
+      margin-bottom: 0.85rem;
+    }
+    .upload-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .upload-btn-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #FFFFFF;
+      color: var(--emerald);
+      border: 1.5px solid var(--sage);
+      border-radius: 8px;
+      padding: 0.34rem 0.82rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .upload-btn-label:hover { background: var(--sage); color: #FFFFFF; }
+    .upload-preview-card {
+      margin-top: 0.55rem;
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 0.55rem 0.7rem;
+      font-size: 0.82rem;
+    }
+    .upload-preview-card img {
+      max-width: 100%;
+      max-height: 115px;
+      object-fit: contain;
+      border-radius: 6px;
+      margin-top: 0.4rem;
+      border: 1px solid var(--line);
+    }
+
+    .dalil-link-row {
+      font-size: 0.82rem;
+      margin: -0.15rem 0 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .dalil-link-row a {
+      color: var(--emerald);
+      background: var(--pastel-mint);
+      padding: 0.22rem 0.62rem;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid var(--sage-light);
+    }
+    .dalil-link-row a:hover { background: var(--sage); color: #FFFFFF; }
+
+    /* AI EXTERNAL OPTIONS */
+    .ai-ext-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.5rem;
+    }
+    .ai-ext-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.32rem;
+      padding: 0.42rem 0.78rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: #FFFFFF;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .ai-ext-btn:hover { border-color: var(--sage); background: var(--pastel-mint); color: var(--emerald); }
+    .ai-ext-btn.gemini { background: #EEF4FF; border-color: #C4D8FC; color: #1D4ED8; }
+    .ai-ext-btn.chatgpt { background: #ECFDF5; border-color: #BCEAD5; color: #047857; }
+    .ai-ext-btn.claude { background: #FDF4EE; border-color: #F3D3BE; color: #9A3412; }
+
+    /* FORM FOOTER BAR */
+    .form-action-bar {
+      margin-top: 1rem;
+      padding-top: 0.95rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    /* 4. BOTTOM CARD: LIVE EDITABLE A4 DOCUMENT PREVIEW */
+    .preview-shell {
+      background: linear-gradient(180deg, var(--pastel-lavender) 0%, #E7EEF9 100%);
+      border: 1px solid #CFD9EB;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .preview-bar {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--line);
+      padding: 0.72rem 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .preview-bar-left, .preview-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .preview-bar select {
+      font: 600 0.82rem "Plus Jakarta Sans", sans-serif;
+      padding: 0.38rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #FFFFFF;
+      color: var(--ink);
+    }
+
+    .zoom-pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--pastel-mint);
+      border: 1px solid var(--sage-light);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .zoom-pill button {
+      border: 0;
+      background: transparent;
+      color: var(--emerald);
+      font-weight: 700;
+      padding: 0.32rem 0.58rem;
+      cursor: pointer;
+    }
+    .zoom-pill span { font-size: 0.8rem; font-weight: 700; padding: 0 0.38rem; color: var(--ink); }
+
+    .edit-hint {
+      font-size: 0.82rem;
+      color: var(--muted);
+      background: var(--pastel-mint);
+      padding: 0.45rem 1.2rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .a4-scroll {
+      padding: 1.75rem 1rem 2.2rem;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .a4-sheet {
+      width: 210mm;
+      min-height: 297mm;
+      background: #FFFFFF;
+      color: #111111;
+      padding: 18mm 20mm;
+      box-shadow: 0 14px 36px rgba(23, 51, 44, 0.14);
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 11pt;
+      line-height: 1.45;
+      outline: none;
+      transform-origin: top center;
+      transition: transform 0.15s ease;
+    }
+
+    .a4-sheet[data-doc-theme="sage"] { --doc-primary: #1B7461; --doc-light: #EBF6F1; --doc-border: #5BA392; }
+    .a4-sheet[data-doc-theme="olive"] { --doc-primary: #556B2F; --doc-light: #EBF1DE; --doc-border: #76933C; }
+    .a4-sheet[data-doc-theme="softblue"] { --doc-primary: #1F4E78; --doc-light: #EAF1FA; --doc-border: #5C85B5; }
+    .a4-sheet[data-doc-theme="mono"] { --doc-primary: #333333; --doc-light: #EFEFEF; --doc-border: #555555; }
+
+    .a4-sheet [contenteditable="true"]:hover { background-color: rgba(200, 155, 60, 0.1); outline: 1px dashed #C89B3C; }
+    .a4-sheet [contenteditable="true"]:focus { background-color: rgba(235, 246, 241, 0.55); outline: 1.5px solid #1B7461; }
+
+    .kop-lembaga { text-align: center; border-bottom: 3pt double #000; padding-bottom: 6pt; margin-bottom: 10pt; }
+    .kop-lembaga .kop-title { font-size: 13pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4pt; }
+    .kop-lembaga .kop-sub { font-size: 9.5pt; color: #333; }
+
+    .doc-header { text-align: center; border-bottom: 2pt solid var(--doc-primary); padding-bottom: 7pt; margin-bottom: 10pt; }
+    .doc-header h1 { font-family: "Times New Roman", Times, serif; font-size: 13.5pt; text-transform: uppercase; color: #000; margin: 0 0 2pt; }
+    .doc-header p { margin: 0; font-weight: 700; font-size: 10.5pt; color: var(--doc-primary); }
+
+    .doc-sec { background: var(--doc-light); color: #000; font-weight: 700; font-size: 10.5pt; padding: 4pt 8pt; border: 1pt solid var(--doc-border); margin-top: 9pt; text-transform: uppercase; }
+    .doc-sub { background: var(--doc-primary); color: #fff; font-weight: 700; font-size: 10pt; padding: 3pt 8pt; border: 1pt solid var(--doc-border); margin-top: 7pt; }
+
+    .doc-table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+    .doc-table th, .doc-table td { border: 1pt solid var(--doc-border); padding: 4pt 6.5pt; vertical-align: top; text-align: left; color: #111; }
+    .doc-table th { background: var(--doc-light); font-weight: 700; }
+
+    .doc-box { border: 1pt solid var(--doc-border); border-top: 0; padding: 5.5pt 8pt; color: #111; }
+    .doc-arabic { font-family: "Amiri", "Traditional Arabic", "Noto Naskh Arabic", serif; font-size: 16pt; direction: rtl; text-align: right; line-height: 2.1; margin: 5pt 0; color: #000; }
+
+    .doc-sign { width: 100%; border-collapse: collapse; margin-top: 16pt; }
+    .doc-sign td { width: 50%; vertical-align: top; padding: 4pt 8pt; border: 0; color: #111; }
+
+    /* 5. MINIMAL FOOTER */
+    footer {
+      background: #FFFFFF;
+      padding: 1.5rem 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--line);
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+    .dev-credit {
+      background: var(--pastel-cream);
+      border: 1px solid #E8CFA0;
+      color: #6B4B10;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid, .grid-3 { grid-template-columns: 1fr; }
+      .a4-sheet { width: 100%; min-height: auto; padding: 1.1rem; transform: none !important; }
+    }
+    @media (max-width: 600px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .card-form { padding: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- 1. MINIMAL TOP NAVBAR (TANPA DUPLIKASI LOGO) -->
+  <nav class="topbar" aria-label="Navigasi Utama">
+    <div class="topbar-inner">
+      <span class="nav-pill-tag">🌿 Ruang Kerja Perangkat Ajar PAI</span>
+      <div class="nav-actions">
+        <button type="button" id="btnOpenPurposeModal" class="btn btn-sm btn-cream">💌 Tujuan &amp; Surat untuk Pendidik</button>
+        <a href="#generator" class="btn btn-sm btn-outline">Mulai Susun</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MODAL POP-UP: SURAT HANGAT & TUJUAN SOHIB PAI -->
+  <div id="purposeModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalLetterTitle">
+    <div class="letter-modal">
+      <button type="button" id="btnClosePurposeModal" class="modal-close" aria-label="Tutup surat">✕</button>
+      <div class="letter-badge">💌 Sepucuk Surat untuk Sahabat Pendidik PAI</div>
+      <h2 id="modalLetterTitle">Mengapa Sohib PAI Hadir untuk Anda?</h2>
+      <div class="letter-body">
+        <p><em>Assalamu’alaikum warahmatullahi wabarakatuh,</em></p>
+        <p>Salam hangat untuk Bapak dan Ibu Guru Pendidikan Agama Islam, rekan-rekan Mahasiswa Jurusan PAI, serta para Pejuang PPG di mana pun berada.</p>
+        <p>Saya memahami betapa mulianya tugas seorang pendidik PAI—bukan hanya menyampaikan materi pelajaran, tetapi juga menanamkan adab, membimbing ibadah, dan menyentuh hati peserta didik. Namun, sering kali waktu dan tenaga pendidik tersita oleh kerumitan penyusunan administrasi perangkat ajar.</p>
+        <div class="letter-goals">
+          <strong style="color:var(--emerald);font-size:0.9rem">Tujuan &amp; Harapan Dibangunnya Sohib PAI:</strong>
+          <ul>
+            <li><strong>Meringankan Administrasi Pembelajaran:</strong> Membantu guru SD/MI, SMP/MTs, dan SMA/MA menyusun Modul Ajar, LKPD, serta Asesmen yang rapi dari satu halaman kerja yang sistematis.</li>
+            <li><strong>Mendampingi Mahasiswa PAI &amp; PPG:</strong> Menjadi teman belajar yang ramah dalam menyiapkan perangkat pembelajaran PPL/PLP maupun ujian kinerja.</li>
+            <li><strong>Menjaga Ketelitian Dalil &amp; Fleksibilitas Kurikulum:</strong> Menghubungkan rujukan ayat dan hadis ke sumber resmi (Al-Qur'an Kemenag &amp; Sunnah.com) serta menyesuaikan format Kurikulum Merdeka, K-13, dan Kurikulum Berbasis Cinta Kemenag.</li>
+          </ul>
+        </div>
+        <p>Semoga kehadiran sederhana dari <strong>Sohib PAI</strong> ini dapat menemani langkah mengajar Anda agar terasa lebih tenang, tertata, dan bernilai amal jariyah.</p>
+        <div class="letter-sign">
+          Dengan penuh rasa hormat dan doa terbaik,<br>
+          <strong>Dwi Nuraeni Muzizatun Nisa</strong><br>
+          <span style="font-size:0.82rem;color:var(--muted)">Pengembang Sohib PAI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. COMPACT HERO SECTION DENGAN SATU LOGO TUNGGAL & ONE DAY ONE AYAT -->
+  <header class="hero">
+    <svg class="hero-pattern" aria-hidden="true">
+      <defs>
+        <pattern id="pastelGeo" width="76" height="76" patternUnits="userSpaceOnUse">
+          <rect x="20" y="20" width="36" height="36" rx="5" fill="none" stroke="#1B7461" stroke-opacity=".12"></rect>
+          <rect x="20" y="20" width="36" height="36" rx="5" fill="none" stroke="#C89B3C" stroke-opacity=".16" transform="rotate(45 38 38)"></rect>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#pastelGeo)"></rect>
+    </svg>
+    <div class="wrap">
+      <div class="hero-grid">
+        <!-- SISI KIRI: SATU IDENTITAS MEREK TUNGGAL + TAGLINE HANGAT -->
+        <div>
+          <div class="single-brand-lockup">
+            <svg width="48" height="48" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="80" height="80" rx="18" fill="#EBF6F1"></rect>
+              <path d="M23 44V31C23 23.5 34.5 18 40 12C45.5 18 57 23.5 57 31V44" stroke="#084231" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M40 21.5L42.3 26.7L47.5 29L42.3 31.3L40 36.5L37.7 31.3L32.5 29L37.7 26.7L40 21.5Z" fill="#C89B3C"></path>
+              <path d="M16 49C25 46.5 34.5 50 40 57.5C45.5 50 55 46.5 64 49L68 58C57 54.5 46 57.5 40 65C34 57.5 23 54.5 12 58L16 49Z" fill="#084231"></path>
+              <path d="M19.5 43.5C27.5 42.5 35.5 46.5 40 53.5C44.5 46.5 52.5 42.5 60.5 43.5" stroke="#C89B3C" stroke-width="3.4" stroke-linecap="round"></path>
+            </svg>
+            <div>
+              <div class="single-brand-title">Sohib <span>PAI</span></div>
+              <div class="single-brand-sub">Teman Setia Perangkat Ajar PAI</div>
+            </div>
+          </div>
+
+          <h1>Menyiapkan perangkat ajar PAI kini terasa lebih <span>hangat dan tertata</span>.</h1>
+
+          <div class="hero-tagline">
+            “Karena mengajar PAI adalah seni menyentuh hati, biar Sohib PAI yang bantu merapikan administrasinya.”
+          </div>
+
+          <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+            <a class="btn" href="#generator">✨ Mulai Susun Perangkat</a>
+            <button type="button" id="btnHeroPurpose" class="btn btn-outline">💌 Baca Tujuan &amp; Surat</button>
+          </div>
+        </div>
+
+        <!-- SISI KANAN: AESTHETIC FLOATING STICKY NOTE (ONE DAY ONE AYAT) -->
+        <div class="sticky-note-wrap" aria-label="One Day One Ayat">
+          <div class="washi-tape" aria-hidden="true"></div>
+          <div class="odoa-sticky">
+            <div class="odoa-header">
+              <span class="odoa-label">📖 One Day One Ayat</span>
+            </div>
+            <div id="odoaArab" class="odoa-arab" lang="ar" dir="rtl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <p id="odoaTerjemah" class="odoa-terjemah">“Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.”</p>
+            <span id="odoaSumber" class="odoa-sumber">QS. Al-Fātiḥah [1]: 1</span>
+            <div class="odoa-actions">
+              <a id="odoaLink" href="https://quran.kemenag.go.id/quran/per-ayat/surah/1?from=1&amp;to=1" target="_blank" rel="noopener" class="btn btn-sm btn-outline">🔗 Buka Kemenag</a>
+              <button type="button" id="btnCopyAyat" class="btn btn-sm btn-cream">📋 Salin Ayat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. SINGLE CONTINUOUS GENERATOR + A4 PREVIEW BELOW -->
+  <section id="generator" class="studio">
+    <div class="wrap">
+      <div class="stacked-workspace">
+
+        <!-- KARTU ATAS: FORMULIR PENYUSUNAN SATU HALAMAN LANGSUNG -->
+        <div class="card-form">
+          <div class="card-form-top">
+            <div>
+              <h2>Penyusunan Perangkat Ajar PAI</h2>
+              <p class="sub-lead">Isi langsung pada satu kartu formulir di bawah ini; pratinjau kertas A4 otomatis menyesuaikan.</p>
+            </div>
+          </div>
+
+          <div class="quick-topics-bar">
+            <span class="quick-topics-label">✨ Topik Cepat:</span>
+            <button type="button" class="topic-chip" data-topic="Beriman kepada Kitab-Kitab Allah Swt." data-elemen="Akidah" data-surah="4" data-a1="136" data-a2="136">Iman kepada Kitab Allah</button>
+            <button type="button" class="topic-chip" data-topic="Membaca Al-Qur'an dengan Tartil" data-elemen="Al-Qur'an dan Hadis" data-surah="96" data-a1="1" data-a2="5">Tartil Al-Qur'an</button>
+            <button type="button" class="topic-chip" data-topic="Meneladani Akhlak Mulia &amp; Jujur" data-elemen="Akhlak" data-surah="68" data-a1="4" data-a2="4">Akhlak Mulia &amp; Jujur</button>
+            <button type="button" class="topic-chip" data-topic="Tata Cara Bersuci (Wudu &amp; Tayamum)" data-elemen="Fikih" data-surah="5" data-a1="6" data-a2="6">Tata Cara Wudu</button>
+            <button type="button" class="topic-chip" data-topic="Keteladanan Dakwah Nabi Muhammad saw." data-elemen="Sejarah Peradaban Islam" data-surah="33" data-a1="21" data-a2="21">Keteladanan Rasul</button>
+          </div>
+
+          <div class="grid-3">
+            <div class="fg">
+              <label for="fJenis">Jenis Perangkat</label>
+              <select id="fJenis">
+                <option value="Modul Ajar" selected="">Modul Ajar</option>
+                <option value="LKPD">LKPD</option>
+                <option value="Asesmen / Evaluasi">Asesmen / Evaluasi</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="fKurikulum">Pilihan Kurikulum</label>
+              <select id="fKurikulum">
+                <option value="Kurikulum Merdeka">Kurikulum Merdeka</option>
+                <option value="Kurikulum 2013 (K-13)">Kurikulum 2013 (K-13)</option>
+                <option value="Kurikulum Berbasis Cinta (KBC Kemenag)">Kurikulum Berbasis Cinta (KBC Kemenag)</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="fElemen">Elemen PAI</label>
+              <select id="fElemen">
+                <option>Al-Qur'an dan Hadis</option>
+                <option selected="">Akidah</option>
+                <option>Akhlak</option>
+                <option>Fikih</option>
+                <option>Sejarah Peradaban Islam</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="fg">
+              <label for="fJenjang">Jenjang Pendidikan</label>
+              <select id="fJenjang">
+                <option value="SD/MI">SD/MI</option>
+                <option value="SMP/MTs">SMP/MTs</option>
+                <option value="SMA/MA">SMA/MA</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label for="fKelas">Kelas</label>
+              <select id="fKelas"></select>
+            </div>
+            <div class="fg">
+              <label for="fFase" id="lblFaseSemester">Fase</label>
+              <input id="fFase" readonly="">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="fg">
+              <label for="fTopik">Topik / Materi Pembelajaran</label>
+              <input id="fTopik" value="Beriman kepada Kitab-Kitab Allah Swt." placeholder="Contoh: Salat Berjamaah / Jujur dan Amanah">
+            </div>
+            <div class="fg">
+              <label for="fModel">Model Pembelajaran</label>
+              <select id="fModel">
+                <option>Problem Based Learning (PBL)</option>
+                <option>Project Based Learning (PjBL)</option>
+                <option>Discovery Learning</option>
+                <option>Cooperative Learning (STAD / Jigsaw)</option>
+                <option>Inquiry Learning</option>
+                <option>Contextual Teaching &amp; Learning (CTL)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="fg">
+              <label for="fAlokasi">Alokasi Waktu</label>
+              <input id="fAlokasi" value="2 × 35 Menit" placeholder="Contoh: 2 × 40 Menit">
+            </div>
+            <div class="fg">
+              <label for="fPertemuan">Jumlah Pertemuan</label>
+              <input id="fPertemuan" type="number" min="1" max="12" value="1">
+            </div>
+            <div class="fg">
+              <label for="fSemester">Semester</label>
+              <select id="fSemester">
+                <option value="1 (Ganjil)">1 (Ganjil)</option>
+                <option value="2 (Genap)">2 (Genap)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="fg">
+              <label>Dalil Al-Qur'an Rujukan</label>
+              <div style="display:grid;grid-template-columns:1.5fr 0.65fr 0.65fr;gap:0.45rem">
+                <select id="fSurah" aria-label="Pilih Surah"></select>
+                <input id="fAyat1" type="number" min="1" max="286" value="136" placeholder="Ayat" aria-label="Ayat Mulai">
+                <input id="fAyat2" type="number" min="1" max="286" value="136" placeholder="s.d." aria-label="Ayat Akhir">
+              </div>
+            </div>
+            <div class="fg">
+              <label>Dalil Hadis Rujukan (Sunnah.com)</label>
+              <div style="display:grid;grid-template-columns:1.4fr 0.8fr;gap:0.45rem">
+                <select id="fKitab" aria-label="Pilih Kitab Hadis"></select>
+                <input id="fNoHadis" placeholder="No. Hadis" aria-label="Nomor Hadis">
+              </div>
+            </div>
+          </div>
+
+          <div id="dalilLinks" class="dalil-link-row"></div>
+
+          <!-- PANEL KHUSUS LKPD (OTOMATIS MUNCUL SAAT JENIS = LKPD) -->
+          <div id="lkpdSpecialPanel" class="lkpd-studio-panel" hidden="">
+            <div class="lkpd-studio-header">
+              <strong style="font-size:0.9rem;color:var(--emerald)">📝 Pengaturan Khusus LKPD PAI</strong>
+              <span class="lkpd-badge">✨ Siap Cetak Siswa &amp; Konversi Modul</span>
+            </div>
+
+            <div class="grid-2">
+              <div class="fg" style="margin-bottom:0.55rem">
+                <label for="fLkpdTipe">Bentuk Aktivitas LKPD</label>
+                <select id="fLkpdTipe">
+                  <option value="Studi Kasus &amp; Diskusi Kelompok">Studi Kasus &amp; Diskusi Kelompok</option>
+                  <option value="Praktik Ibadah / Tilawah (Ceklis)">Praktik Ibadah / Tilawah (Ceklis)</option>
+                  <option value="Analisis Gambar / Tadabur Dalil">Analisis Gambar / Tadabur Dalil</option>
+                  <option value="Proyek &amp; Pembiasaan Akhlak">Proyek &amp; Pembiasaan Akhlak</option>
+                </select>
+              </div>
+              <div class="fg" style="margin-bottom:0.55rem">
+                <label for="fLkpdModulUpload">Ubah Modul Ajar yang Ada Jadi LKPD</label>
+                <div style="display:flex;align-items:center;gap:0.45rem">
+                  <label for="fLkpdModulUpload" class="upload-btn-label" style="width:100%;justify-content:center">
+                    <span>📂 Pilih File Modul (Word / PDF / Foto)</span>
+                    <input type="file" id="fLkpdModulUpload" accept=".jpg,.jpeg,.png,.webp,.pdf,.docx" hidden="">
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="fg" style="margin-bottom:0">
+              <label for="fLkpdStimulus">Stimulus / Cerita Pemantik untuk Siswa (Opsional — otomatis diisi jika kosong)</label>
+              <textarea id="fLkpdStimulus" rows="2" placeholder="Contoh: Ahmad menemukan dompet teman di halaman masjid sekolah saat jam istirahat. Menurutmu, sikap apa yang mencerminkan perilaku amanah?"></textarea>
+            </div>
+
+            <!-- REQUEST KREASI LKPD KUSTOM (GAMES, TEKA-TEKI, PROYEK, DLL.) -->
+            <div class="lkpd-search-box">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.35rem">
+                <strong style="font-size:0.85rem;color:var(--emerald)">🎯 Request Kreasi LKPD ke Sohib PAI</strong>
+                <span style="font-size:0.76rem;color:var(--muted)">Minta bentuk LKPD kreatif (Games, Teka-Teki, Tantangan, dll.)</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.45rem">
+                <button type="button" class="topic-chip lkpd-req-preset" data-req="Buatkan LKPD dalam bentuk Games Edukatif (Teka-Teki Silang &amp; Tebak Kata Kunci PAI) yang seru dikerjakan berkelompok">🎲 Games Teka-Teki PAI</button>
+                <button type="button" class="topic-chip lkpd-req-preset" data-req="Buatkan LKPD dalam bentuk Misi Detektif Dalil &amp; Studi Kasus Nyata di sekolah">🕵️ Misi Detektif Dalil</button>
+                <button type="button" class="topic-chip lkpd-req-preset" data-req="Buatkan LKPD dalam bentuk Tantangan Papan Ular Tangga / Kuis Cepat Berpasangan">🎯 Kuis Cepat Berpasangan</button>
+                <button type="button" class="topic-chip lkpd-req-preset" data-req="Buatkan LKPD dalam bentuk Jurnal Tantangan 7 Hari Pembiasaan Akhlak &amp; Ibadah">🌟 Tantangan 7 Hari</button>
+              </div>
+              <div class="lkpd-search-bar">
+                <input type="text" id="fLkpdCustomRequest" placeholder="Tulis request LKPD yang diinginkan (misal: dalam bentuk games tebak ayat, kartu berpasangan, atau komik dialog)...">
+                <button type="button" id="btnApplyLkpdRequest" class="btn btn-sm">✨ Susun Request LKPD</button>
+              </div>
+              <div id="lkpdRequestStatus" style="font-size:0.78rem;color:var(--muted);margin-top:0.35rem"></div>
+            </div>
+          </div>
+
+          <!-- PANEL KHUSUS ASESMEN / EVALUASI (OTOMATIS MUNCUL SAAT JENIS = Asesmen / Evaluasi) -->
+          <div id="asesmenSpecialPanel" class="asesmen-studio-panel" hidden="">
+            <div class="lkpd-studio-header">
+              <strong style="font-size:0.9rem;color:#1E3A8A">📊 Pengaturan Khusus Asesmen / Evaluasi PAI</strong>
+              <span class="asesmen-badge">✨ Kisi-Kisi, Soal HOTS &amp; Rubrik PAI</span>
+            </div>
+
+            <div class="grid-3">
+              <div class="fg" style="margin-bottom:0.55rem">
+                <label for="fAsesmenJenis">Jenis Penilaian</label>
+                <select id="fAsesmenJenis">
+                  <option value="Asesmen Formatif (Ulangan Harian)">Asesmen Formatif (Ulangan Harian)</option>
+                  <option value="Asesmen Sumatif Akhir Materi">Asesmen Sumatif Akhir Materi</option>
+                  <option value="Asesmen Diagnostik (Pemetaan Awal)">Asesmen Diagnostik (Pemetaan Awal)</option>
+                  <option value="Asesmen Praktik Ibadah &amp; Tilawah">Asesmen Praktik Ibadah &amp; Tilawah</option>
+                </select>
+              </div>
+              <div class="fg" style="margin-bottom:0.55rem">
+                <label for="fAsesmenMode">Mode Tampilan Naskah</label>
+                <select id="fAsesmenMode">
+                  <option value="guru">Naskah Guru (Kisi-Kisi + Kunci Jawaban)</option>
+                  <option value="siswa">Lembar Soal Siswa (Tanpa Kunci)</option>
+                </select>
+              </div>
+              <div class="fg" style="margin-bottom:0.55rem">
+                <label for="fAsesmenKomposisi">Komposisi Jumlah Soal</label>
+                <select id="fAsesmenKomposisi">
+                  <option value="5-3">5 Pilihan Ganda + 3 Uraian</option>
+                  <option value="10-5">10 Pilihan Ganda + 5 Uraian</option>
+                  <option value="3-2">3 Pilihan Ganda + 2 Uraian (Kuis Singkat)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="lkpd-search-box">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.35rem">
+                <strong style="font-size:0.85rem;color:#1E3A8A">🎯 Susun Soal Otomatis / Request Fokus Soal PAI</strong>
+                <span style="font-size:0.76rem;color:var(--muted)">Sesuaikan tingkat HOTS, studi kasus akhlak, atau tajwid</span>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.45rem">
+                <button type="button" class="topic-chip asesmen-req-preset" data-req="Fokuskan soal pada studi kasus penerapan akhlak sehari-hari dan analisis dalil (HOTS C4-C5)">🧠 Fokus Studi Kasus HOTS</button>
+                <button type="button" class="topic-chip asesmen-req-preset" data-req="Fokuskan soal pada pemahaman makna ayat/hadis, hukum tajwid, dan kandungan dalil">📖 Fokus Tadabur &amp; Tajwid</button>
+                <button type="button" class="topic-chip asesmen-req-preset" data-req="Fokuskan soal pada tata cara ibadah fikih, syarat rukun, dan pemecahan masalah ibadah">🕌 Fokus Praktik &amp; Fikih</button>
+              </div>
+              <div class="lkpd-search-bar">
+                <input type="text" id="fAsesmenCustomRequest" placeholder="Tulis fokus soal yang diinginkan (misal: soal cerita kehidupan sehari-hari siswa, atau level mudah-sedang-sukar)...">
+                <button type="button" id="btnApplyAsesmenRequest" class="btn btn-sm">✨ Susun Soal Asesmen</button>
+              </div>
+              <div id="asesmenRequestStatus" style="font-size:0.78rem;color:var(--muted);margin-top:0.35rem"></div>
+            </div>
+          </div>
+
+          <!-- UNGGAH FILE REFERENSI MATERI (FOTO, PDF, WORD) -->
+          <div id="generalUploadZone" class="upload-zone">
+            <div class="upload-header">
+              <span style="font-weight:700;font-size:0.86rem;color:var(--emerald)">📎 Unggah Referensi Materi / Modul (Foto, PDF, atau Word)</span>
+              <label for="fUploadMateri" class="upload-btn-label">
+                <span>📂 Pilih File</span>
+                <input type="file" id="fUploadMateri" accept=".jpg,.jpeg,.png,.webp,.pdf,.docx" hidden="">
+              </label>
+            </div>
+            <div style="font-size:0.81rem;color:var(--muted)">Punya bahan ajar sendiri? Klik <strong>Pilih File</strong> untuk mengunggah berkas Foto, PDF, atau Word agar otomatis dirangkum ke dalam dokumen.</div>
+            <div id="uploadStatusBox" class="upload-preview-card" hidden="">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:0.4rem">
+                <strong id="uploadFileName" style="color:var(--ink);word-break:break-all"></strong>
+                <button type="button" id="btnClearUpload" style="border:0;background:transparent;color:#B42318;font-weight:700;cursor:pointer;font-size:0.78rem">✕ Hapus</button>
+              </div>
+              <div id="uploadImgWrap" hidden="">
+                <img id="uploadImgPreview" alt="Pratinjau lampiran referensi materi">
+                <label style="display:flex;align-items:center;gap:0.4rem;margin-top:0.35rem;font-size:0.8rem;font-weight:600;color:var(--emerald);cursor:pointer">
+                  <input type="checkbox" id="chkEmbedImage" checked="" style="width:auto;accent-color:var(--sage)"> Sematkan gambar ini ke dalam dokumen A4
+                </label>
+              </div>
+              <textarea id="fUploadedText" rows="2" style="margin-top:0.4rem;font-size:0.82rem" placeholder="Ringkasan materi dari berkas akan tampil di sini..."></textarea>
+            </div>
+          </div>
+
+          <!-- LIPATAN OPSIONAL: IDENTITAS PENYUSUN, PENGESAHAN & TEKS DALIL -->
+          <details class="optional-fold">
+            <summary>✍️ Identitas Penyusun, Kepala Sekolah &amp; Teks Dalil (Opsional)</summary>
+            <div class="optional-fold-body">
+              <div class="grid-3">
+                <div class="fg">
+                  <label for="fPenyusun">Nama Penyusun (Guru / Mahasiswa)</label>
+                  <input id="fPenyusun" placeholder="Nama lengkap &amp; gelar">
+                </div>
+                <div class="fg">
+                  <label for="fNip">NIP / NIM (Opsional)</label>
+                  <input id="fNip" placeholder="NIP Guru / NIM Mahasiswa">
+                </div>
+                <div class="fg">
+                  <label for="fSekolah">Nama Sekolah / Madrasah</label>
+                  <input id="fSekolah" placeholder="SDN / SMPN / SMAN / Madrasah">
+                </div>
+              </div>
+
+              <div class="grid-3">
+                <div class="fg">
+                  <label for="fTahun">Tahun Pelajaran</label>
+                  <input id="fTahun" value="2026/2027">
+                </div>
+                <div class="fg">
+                  <label for="fTempatTgl">Kota &amp; Tanggal Pengesahan</label>
+                  <input id="fTempatTgl" placeholder="Contoh: Tangerang, Juli 2026">
+                </div>
+                <div class="fg">
+                  <label for="docTheme">Tema Warna Tabel A4</label>
+                  <select id="docTheme">
+                    <option value="sage" selected="">Pastel Sage</option>
+                    <option value="olive">Hijau Zaitun</option>
+                    <option value="softblue">Biru Lembut</option>
+                    <option value="mono">Hitam Putih Cetak</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="fg">
+                  <label for="fKepsek">Nama Kepala Sekolah / Madrasah</label>
+                  <input id="fKepsek" placeholder="Nama lengkap Kepala Sekolah">
+                </div>
+                <div class="fg">
+                  <label for="fNipKepsek">NIP Kepala Sekolah (Opsional)</label>
+                  <input id="fNipKepsek" placeholder="NIP Kepala Sekolah">
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="fg">
+                  <label for="fArab">Teks Arab Berharakat (Opsional)</label>
+                  <textarea id="fArab" rows="2" dir="rtl" lang="ar" style="font-family:Amiri,serif;font-size:1.2rem" placeholder="Tempel ayat/hadis dari Al-Qur'an Kemenag / Sunnah.com"></textarea>
+                </div>
+                <div class="fg">
+                  <label for="fTerjemah">Terjemah Dalil (Opsional)</label>
+                  <textarea id="fTerjemah" rows="2" placeholder="Tempel terjemah resmi sesuai sumber"></textarea>
+                </div>
+              </div>
+
+              <div>
+                <label style="display:flex;align-items:center;gap:0.45rem;font-size:0.84rem;font-weight:600;color:var(--emerald);cursor:pointer">
+                  <input type="checkbox" id="chkKopLembaga" style="width:auto;accent-color:var(--sage)"> Tampilkan Kop Sekolah / Madrasah di bagian atas kertas A4
+                </label>
+              </div>
+            </div>
+          </details>
+
+          <!-- TOMBOL SUSUN & PILIHAN AI -->
+          <div class="form-action-bar">
+            <div style="display:flex;gap:0.55rem;flex-wrap:wrap;align-items:center">
+              <button type="button" id="btnGenerateAi" class="btn">
+                <span id="btnGenIcon">✨</span>
+                <span id="btnGenText">Susun Perangkat Ajar dengan AI</span>
+              </button>
+              <button type="button" id="btnResetForm" class="btn btn-outline">↺ Reset Draf</button>
+            </div>
+            <div class="ai-ext-group" aria-label="Buka di AI Eksternal">
+              <span style="font-size:0.79rem;font-weight:700;color:var(--muted)">Atau lanjut ke AI pilihan Anda:</span>
+              <a id="linkGemini" href="#" target="_blank" rel="noopener" class="ai-ext-btn gemini">✦ Gemini</a>
+              <a id="linkChatGpt" href="#" target="_blank" rel="noopener" class="ai-ext-btn chatgpt">💬 ChatGPT</a>
+              <a id="linkClaude" href="#" target="_blank" rel="noopener" class="ai-ext-btn claude">✴️ Claude</a>
+              <button type="button" id="btnCopyPrompt" class="ai-ext-btn">📋 Salin Prompt</button>
+            </div>
+          </div>
+
+          <!-- PENGATURAN API KEY PRIBADI PENGUNJUNG (AMAN UNTUK GITHUB PAGES) -->
+          <details class="optional-fold" style="margin-top:0.75rem;background:var(--pastel-cream);border-color:#E7D09A">
+            <summary style="color:#6E4E12">🔑 Pengaturan API Key Gemini Pribadi (Opsional untuk GitHub Pages)</summary>
+            <div class="optional-fold-body">
+              <p style="font-size:0.81rem;color:#6E4E12;margin:0 0 0.55rem">
+                Saat website ini diakses publik melalui GitHub Pages, setiap pengunjung dapat mengambil dan memasukkan <strong>Gemini API Key gratis miliknya sendiri</strong> (tersimpan aman hanya di browser masing-masing, tidak memakai kuota pemilik website).
+              </p>
+              <div style="margin-bottom:0.6rem">
+                <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="btn btn-sm btn-outline" style="background:#FFFFFF;border-color:#C89B3C;color:#6E4E12">
+                  🔗 Ambil API Key Pribadi Gratis (Google AI Studio) ↗
+                </a>
+              </div>
+              <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center">
+                <input type="password" id="fUserApiKey" placeholder="Tempel Gemini API Key pribadi Anda di sini (AIzaSy...)" style="flex:1;min-width:220px;font:400 0.85rem 'Plus Jakarta Sans',sans-serif;padding:0.45rem 0.7rem;border:1px solid #DFC58B;border-radius:8px;background:#FFFFFF">
+                <button type="button" id="btnSaveApiKey" class="btn btn-sm btn-cream">💾 Simpan Kunci</button>
+                <button type="button" id="btnClearApiKey" class="btn btn-sm btn-outline">Hapus</button>
+              </div>
+              <div id="apiKeyStatus" style="font-size:0.77rem;color:var(--emerald);margin-top:0.35rem;font-weight:600"></div>
+            </div>
+          </details>
+        </div>
+
+        <!-- KARTU BAWAH: PRATINJAU KERTAS A4 YANG DAPAT DIEDIT LANGSUNG -->
+        <div class="preview-shell" id="previewSection">
+          <div class="preview-bar">
+            <div class="preview-bar-left">
+              <strong style="font-size:0.9rem;color:var(--emerald)">📄 Pratinjau Lembar Kerja A4</strong>
+              <span id="aiBadgeStatus" style="font-size:0.76rem;font-weight:700;padding:0.18rem 0.6rem;border-radius:999px;background:var(--pastel-mint);color:var(--emerald);border:1px solid var(--sage-light)">Siap Disusun</span>
+            </div>
+            <div class="preview-bar-right">
+              <div class="zoom-pill" aria-label="Perbesar atau perkecil kertas A4">
+                <button type="button" id="btnZoomOut" title="Perkecil">−</button>
+                <span id="zoomLabel">100%</span>
+                <button type="button" id="btnZoomIn" title="Perbesar">+</button>
+              </div>
+              <button type="button" id="btnCopyDoc" class="btn btn-sm btn-outline">📋 Salin Teks</button>
+              <button type="button" id="btnDownloadDocx" class="btn btn-sm">⬇️ Unduh Word (.docx)</button>
+            </div>
+          </div>
+
+          <div class="edit-hint">
+            <span>💡 <strong>Tips:</strong> Klik langsung pada teks mana pun di dalam kertas A4 di bawah untuk mengedit sebelum mengunduh ke Word.</span>
+            <span id="docWordCount" style="font-weight:700;color:var(--emerald)"></span>
+          </div>
+
+          <div class="a4-scroll">
+            <article id="a4Preview" class="a4-sheet" data-doc-theme="sage" contenteditable="true" spellcheck="false"></article>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. MINIMAL FOOTER -->
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <strong style="color:var(--emerald)">Sohib PAI</strong> — Teman Setia Perangkat Ajar PAI • Rujukan Dalil Terhubung Al-Qur'an Kemenag &amp; Sunnah.com
+      </div>
+      <div class="dev-credit">
+        Dikembangkan dengan hati oleh Dwi Nuraeni Muzizatun Nisa
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    "use strict";
+
+    const $ = (id) => document.getElementById(id);
+
+    // 1. DATA ONE DAY ONE AYAT (BERURUTAN HARIAN)
+    const AYAT_HARIAN = [
+      {
+        arab: "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
+        terjemah: "“Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.”",
+        sumber: "QS. Al-Fātiḥah [1]: 1",
+        surah: 1, ayat: 1
+      },
+      {
+        arab: "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَۙ",
+        terjemah: "“Segala puji bagi Allah, Tuhan seluruh alam.”",
+        sumber: "QS. Al-Fātiḥah [1]: 2",
+        surah: 1, ayat: 2
+      },
+      {
+        arab: "اِقْرَأْ بِاسْمِ رَبِّكَ الَّذِيْ خَلَقَۚ",
+        terjemah: "“Bacalah dengan (menyebut) nama Tuhanmu yang menciptakan!”",
+        sumber: "QS. Al-‘Alaq [96]: 1",
+        surah: 96, ayat: 1
+      },
+      {
+        arab: "وَقُلْ رَّبِّ زِدْنِيْ عِلْمًا",
+        terjemah: "“Dan katakanlah, ‘Ya Tuhanku, tambahkanlah ilmu kepadaku.’”",
+        sumber: "QS. Ṭāhā [20]: 114",
+        surah: 20, ayat: 114
+      },
+      {
+        arab: "اِنَّ مَعَ الْعُسْرِ يُسْرًاۗ",
+        terjemah: "“Sesungguhnya beserta kesulitan ada kemudahan.”",
+        sumber: "QS. Asy-Syarḥ [94]: 6",
+        surah: 94, ayat: 6
+      },
+      {
+        arab: "وَمَآ اَرْسَلْنٰكَ اِلَّا رَحْمَةً لِّلْعٰلَمِيْنَ",
+        terjemah: "“Dan Kami tidak mengutus engkau (Muhammad) melainkan untuk (menjadi) rahmat bagi seluruh alam.”",
+        sumber: "QS. Al-Anbiyā’ [21]: 107",
+        surah: 21, ayat: 107
+      },
+      {
+        arab: "يٰٓاَيُّهَا الَّذِيْنَ اٰمَنُوا اتَّقُوا اللّٰهَ وَكُوْنُوْا مَعَ الصّٰدِقِيْنَ",
+        terjemah: "“Wahai orang-orang yang beriman, bertakwalah kepada Allah dan bersamalah kamu dengan orang-orang yang benar (jujur).”",
+        sumber: "QS. At-Taubah [9]: 119",
+        surah: 9, ayat: 119
+      }
+    ];
+
+    // 2. DATA SURAH AL-QUR'AN & KITAB HADIS
+    const SURAH_LIST = [
+      [1, "Al-Fatihah"], [2, "Al-Baqarah"], [3, "Ali 'Imran"], [4, "An-Nisa'"], [5, "Al-Ma'idah"],
+      [6, "Al-An'am"], [7, "Al-A'raf"], [8, "Al-Anfal"], [9, "At-Taubah"], [10, "Yunus"],
+      [11, "Hud"], [12, "Yusuf"], [13, "Ar-Ra'd"], [14, "Ibrahim"], [15, "Al-Hijr"],
+      [16, "An-Nahl"], [17, "Al-Isra'"], [18, "Al-Kahf"], [19, "Maryam"], [20, "Taha"],
+      [21, "Al-Anbiya'"], [22, "Al-Hajj"], [23, "Al-Mu'minun"], [24, "An-Nur"], [25, "Al-Furqan"],
+      [26, "Asy-Syu'ara'"], [27, "An-Naml"], [28, "Al-Qasas"], [29, "Al-'Ankabut"], [30, "Ar-Rum"],
+      [31, "Luqman"], [32, "As-Sajdah"], [33, "Al-Ahzab"], [34, "Saba'"], [35, "Fatir"],
+      [36, "Yasin"], [37, "As-Saffat"], [38, "Sad"], [39, "Az-Zumar"], [40, "Gafir"],
+      [41, "Fussilat"], [42, "Asy-Syura"], [43, "Az-Zukhruf"], [44, "Ad-Dukhan"], [45, "Al-Jasiyah"],
+      [46, "Al-Ahqaf"], [47, "Muhammad"], [48, "Al-Fath"], [49, "Al-Hujurat"], [50, "Qaf"],
+      [51, "Az-Zariyat"], [52, "At-Tur"], [53, "An-Najm"], [54, "Al-Qamar"], [55, "Ar-Rahman"],
+      [56, "Al-Waqi'ah"], [57, "Al-Hadid"], [58, "Al-Mujadalah"], [59, "Al-Hasyr"], [60, "Al-Mumtahanah"],
+      [61, "As-Saff"], [62, "Al-Jumu'ah"], [63, "Al-Munafiqun"], [64, "At-Tagabun"], [65, "At-Talaq"],
+      [66, "At-Tahrim"], [67, "Al-Mulk"], [68, "Al-Qalam"], [69, "Al-Haqqah"], [70, "Al-Ma'arij"],
+      [71, "Nuh"], [72, "Al-Jinn"], [73, "Al-Muzzammil"], [74, "Al-Muddassir"], [75, "Al-Qiyamah"],
+      [76, "Al-Insan"], [77, "Al-Mursalat"], [78, "An-Naba'"], [79, "An-Nazi'at"], [80, "'Abasa"],
+      [81, "At-Takwir"], [82, "Al-Infitar"], [83, "Al-Mutaffifin"], [84, "Al-Insyiqaq"], [85, "Al-Buruj"],
+      [86, "At-Tariq"], [87, "Al-A'la"], [88, "Al-Gasyiyah"], [89, "Al-Fajr"], [90, "Al-Balad"],
+      [91, "Asy-Syams"], [92, "Al-Lail"], [93, "Ad-Duha"], [94, "Asy-Syarh"], [95, "At-Tin"],
+      [96, "Al-'Alaq"], [97, "Al-Qadr"], [98, "Al-Bayyinah"], [99, "Az-Zalzalah"], [100, "Al-'Adiyat"],
+      [101, "Al-Qari'ah"], [102, "At-Takasur"], [103, "Al-'Asr"], [104, "Al-Humazah"], [105, "Al-Fil"],
+      [106, "Quraisy"], [107, "Al-Ma'un"], [108, "Al-Kausar"], [109, "Al-Kafirun"], [110, "An-Nasr"],
+      [111, "Al-Lahab"], [112, "Al-Ikhlas"], [113, "Al-Falaq"], [114, "An-Nas"]
+    ];
+
+    const KITAB_HADIS = [
+      ["bukhari", "Sahih al-Bukhari"],
+      ["muslim", "Sahih Muslim"],
+      ["abudawud", "Sunan Abi Dawud"],
+      ["tirmidhi", "Jami' at-Tirmidhi"],
+      ["nasai", "Sunan an-Nasa'i"],
+      ["ibnmajah", "Sunan Ibn Majah"],
+      ["nawawi40", "Arba'in an-Nawawiyah"],
+      ["riyadussalihin", "Riyadus Shalihin"]
+    ];
+
+    const KELAS_MAP = {
+      "SD/MI": [
+        { k: "Kelas 1", fase: "Fase A" }, { k: "Kelas 2", fase: "Fase A" },
+        { k: "Kelas 3", fase: "Fase B" }, { k: "Kelas 4", fase: "Fase B" },
+        { k: "Kelas 5", fase: "Fase C" }, { k: "Kelas 6", fase: "Fase C" }
+      ],
+      "SMP/MTs": [
+        { k: "Kelas 7", fase: "Fase D" }, { k: "Kelas 8", fase: "Fase D" }, { k: "Kelas 9", fase: "Fase D" }
+      ],
+      "SMA/MA": [
+        { k: "Kelas 10", fase: "Fase E" }, { k: "Kelas 11", fase: "Fase F" }, { k: "Kelas 12", fase: "Fase F" }
+      ]
+    };
+
+    // STATE APLIKASI
+    let uploadedImageDataUrl = "";
+    let currentZoom = 100;
+    let aiGeneratedRichData = null; // Menyimpan hasil kaya dari AI
+    let isGeneratingAi = false;
+
+    function showToast(msg) {
+      const el = $("toast");
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(el._timer);
+      el._timer = setTimeout(() => el.classList.remove("show"), 3200);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // RENDER ONE DAY ONE AYAT
+    function renderOneDayOneAyat() {
+      const now = new Date();
+      const startOfYear = new Date(now.getFullYear(), 0, 0);
+      const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+      const item = AYAT_HARIAN[dayOfYear % AYAT_HARIAN.length];
+      if ($("odoaArab")) $("odoaArab").textContent = item.arab;
+      if ($("odoaTerjemah")) $("odoaTerjemah").textContent = item.terjemah;
+      if ($("odoaSumber")) $("odoaSumber").textContent = item.sumber;
+      if ($("odoaLink")) {
+        $("odoaLink").href = `https://quran.kemenag.go.id/quran/per-ayat/surah/${item.surah}?from=${item.ayat}&to=${item.ayat}`;
+      }
+    }
+
+    function copyCurrentAyat() {
+      const text = `${$("odoaArab")?.textContent || ""}\n${$("odoaTerjemah")?.textContent || ""}\n(${$("odoaSumber")?.textContent || ""})`;
+      copyTextFallback(text, "Ayat harian berhasil disalin!");
+    }
+
+    function copyTextFallback(text, successMsg) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        showToast(successMsg || "Berhasil disalin ke papan klip!");
+      } catch (e) {
+        showToast("Gagal menyalin teks.");
+      }
+      document.body.removeChild(ta);
+    }
+
+    // INISIALISASI DROPDOWN
+    function initSelects() {
+      const surahSel = $("fSurah");
+      if (surahSel) {
+        surahSel.innerHTML = SURAH_LIST.map(([no, nama]) =>
+          `<option value="${no}" ${no === 4 ? "selected" : ""}>${no}. ${nama}</option>`
+        ).join("");
+      }
+      const kitabSel = $("fKitab");
+      if (kitabSel) {
+        kitabSel.innerHTML = KITAB_HADIS.map(([slug, nama]) =>
+          `<option value="${slug}">${nama}</option>`
+        ).join("");
+      }
+      updateKelasOptions();
+    }
+
+    function updateKelasOptions() {
+      const jenjang = $("fJenjang")?.value || "SD/MI";
+      const list = KELAS_MAP[jenjang] || KELAS_MAP["SD/MI"];
+      const kelasSel = $("fKelas");
+      if (!kelasSel) return;
+      const prev = kelasSel.value;
+      kelasSel.innerHTML = list.map(item =>
+        `<option value="${item.k}" data-fase="${item.fase}">${item.k}</option>`
+      ).join("");
+      if ([...kelasSel.options].some(o => o.value === prev)) {
+        kelasSel.value = prev;
+      } else if (jenjang === "SD/MI") {
+        kelasSel.value = "Kelas 4";
+      }
+      updateFaseField();
+    }
+
+    function updateFaseField() {
+      const kur = $("fKurikulum")?.value || "Kurikulum Merdeka";
+      const kelasSel = $("fKelas");
+      const faseInput = $("fFase");
+      const lbl = $("lblFaseSemester");
+      if (!kelasSel || !faseInput) return;
+      const opt = kelasSel.options[kelasSel.selectedIndex];
+      const fase = opt ? opt.getAttribute("data-fase") : "Fase B";
+      if (kur === "Kurikulum 2013 (K-13)") {
+        if (lbl) lbl.textContent = "Tingkat / Kurikulum";
+        faseInput.value = `${kelasSel.value} (K-13 Revisi)`;
+      } else {
+        if (lbl) lbl.textContent = "Fase";
+        faseInput.value = fase;
+      }
+    }
+
+    function getFormData() {
+      const surahNo = parseInt($("fSurah")?.value || "4", 10);
+      const surahObj = SURAH_LIST.find(s => s[0] === surahNo) || [4, "An-Nisa'"];
+      const a1 = $("fAyat1")?.value || "136";
+      const a2 = $("fAyat2")?.value || a1;
+      const kitabSlug = $("fKitab")?.value || "bukhari";
+      const kitabObj = KITAB_HADIS.find(k => k[0] === kitabSlug) || ["bukhari", "Sahih al-Bukhari"];
+      const noHadis = ($("fNoHadis")?.value || "").trim();
+
+      const kemenagUrl = `https://quran.kemenag.go.id/quran/per-ayat/surah/${surahNo}?from=${a1}&to=${a2}`;
+      const sunnahUrl = noHadis
+        ? `https://sunnah.com/${kitabSlug}:${encodeURIComponent(noHadis)}`
+        : `https://sunnah.com/${kitabSlug}`;
+
+      return {
+        jenis: $("fJenis")?.value || "Modul Ajar",
+        kurikulum: $("fKurikulum")?.value || "Kurikulum Merdeka",
+        mapel: "Pendidikan Agama Islam dan Budi Pekerti",
+        elemen: $("fElemen")?.value || "Akidah",
+        jenjang: $("fJenjang")?.value || "SD/MI",
+        kelas: $("fKelas")?.value || "Kelas 4",
+        fase: $("fFase")?.value || "Fase B",
+        topik: ($("fTopik")?.value || "Beriman kepada Kitab-Kitab Allah Swt.").trim(),
+        model: $("fModel")?.value || "Problem Based Learning (PBL)",
+        alokasi: ($("fAlokasi")?.value || "2 × 35 Menit").trim(),
+        pertemuan: $("fPertemuan")?.value || "1",
+        semester: $("fSemester")?.value || "1 (Ganjil)",
+        surahNo,
+        surahNama: surahObj[1],
+        ayat1: a1,
+        ayat2: a2,
+        kemenagUrl,
+        kitabSlug,
+        kitabNama: kitabObj[1],
+        noHadis,
+        sunnahUrl,
+        lkpdTipe: $("fLkpdTipe")?.value || "Studi Kasus & Diskusi Kelompok",
+        lkpdStimulus: ($("fLkpdStimulus")?.value || "").trim(),
+        lkpdRequest: ($("fLkpdCustomRequest")?.value || "").trim(),
+        asesmenJenis: $("fAsesmenJenis")?.value || "Asesmen Formatif (Ulangan Harian)",
+        asesmenMode: $("fAsesmenMode")?.value || "guru",
+        asesmenKomposisi: $("fAsesmenKomposisi")?.value || "5-3",
+        asesmenRequest: ($("fAsesmenCustomRequest")?.value || "").trim(),
+        uploadedText: ($("fUploadedText")?.value || "").trim(),
+        embedImage: Boolean($("chkEmbedImage")?.checked && uploadedImageDataUrl),
+        penyusun: ($("fPenyusun")?.value || "").trim() || "Guru Pendidikan Agama Islam",
+        nip: ($("fNip")?.value || "").trim(),
+        sekolah: ($("fSekolah")?.value || "").trim() || "SD/SMP/SMA Negeri",
+        tahun: ($("fTahun")?.value || "2026/2027").trim(),
+        tempatTgl: ($("fTempatTgl")?.value || "").trim() || "Indonesia, Juli 2026",
+        kepsek: ($("fKepsek")?.value || "").trim() || "........................................",
+        nipKepsek: ($("fNipKepsek")?.value || "").trim(),
+        arab: ($("fArab")?.value || "").trim(),
+        terjemah: ($("fTerjemah")?.value || "").trim(),
+        kopLembaga: Boolean($("chkKopLembaga")?.checked)
+      };
+    }
+
+    function updateDalilLinks() {
+      const d = getFormData();
+      const box = $("dalilLinks");
+      if (!box) return;
+      const ayatRange = d.ayat1 === d.ayat2 ? d.ayat1 : `${d.ayat1}–${d.ayat2}`;
+      box.innerHTML = `
+        <a href="${d.kemenagUrl}" target="_blank" rel="noopener">📖 Cek QS. ${escapeHtml(d.surahNama)} [${d.surahNo}]: ${ayatRange} di Al-Qur'an Kemenag ↗</a>
+        <a href="${d.sunnahUrl}" target="_blank" rel="noopener">📜 Cek ${escapeHtml(d.kitabNama)}${d.noHadis ? " No. " + escapeHtml(d.noHadis) : ""} di Sunnah.com ↗</a>
+      `;
+    }
+
+    function updateContextualPanels() {
+      const jenis = $("fJenis")?.value || "Modul Ajar";
+      const lkpdPanel = $("lkpdSpecialPanel");
+      const asesmenPanel = $("asesmenSpecialPanel");
+      const generalUpload = $("generalUploadZone");
+
+      if (lkpdPanel) lkpdPanel.hidden = (jenis !== "LKPD");
+      if (asesmenPanel) asesmenPanel.hidden = (jenis !== "Asesmen / Evaluasi");
+      if (generalUpload) generalUpload.hidden = (jenis === "LKPD");
+    }
+
+    // PEMBANGUN PROMPT AI KAYA & MENDALAM
+    function buildRichPrompt(d) {
+      return `Anda adalah Pakar Kurikulum Pendidikan Agama Islam (PAI) dan Perancang Pembelajaran Kreatif di Indonesia.
+Susunlah perangkat ajar jenis "${d.jenis}" yang SANGAT KAYA GAGASAN, BAHASANYA HIDUP & HANGAT, KONTEKSTUAL DENGAN DUNIA SISWA MASA KINI, DAN MEMICU DAYA PIKIR KRITIS (HOTS) — hindari kalimat klise/templat yang membosankan.
+
+Data Perangkat:
+- Kurikulum: ${d.kurikulum}
+- Mata Pelajaran: ${d.mapel} (Elemen: ${d.elemen})
+- Jenjang / Kelas / Fase: ${d.jenjang} / ${d.kelas} (${d.fase})
+- Topik / Materi: ${d.topik}
+- Model Pembelajaran: ${d.model}
+- Alokasi Waktu: ${d.alokasi} (${d.pertemuan} Pertemuan, Semester ${d.semester})
+- Rujukan Dalil: QS. ${d.surahNama} [${d.surahNo}]: ${d.ayat1}${d.ayat2 !== d.ayat1 ? "-" + d.ayat2 : ""} & ${d.kitabNama}${d.noHadis ? " No. " + d.noHadis : ""}
+${d.lkpdRequest ? `- Request Khusus LKPD: ${d.lkpdRequest}` : ""}
+${d.asesmenRequest ? `- Request Khusus Asesmen: ${d.asesmenRequest}` : ""}
+${d.uploadedText ? `- Ringkasan Referensi Guru: ${d.uploadedText}` : ""}
+
+Pastikan hasilnya memuat:
+1. Ide kegiatan pembelajaran kreatif yang bikin siswa berpikir & antusias (bukan sekadar ceramah & mencatat).
+2. Studi kasus nyata yang relevan dengan kehidupan pelajar saat ini.
+3. Pertanyaan pemantik & soal HOTS yang menggugah empati, nalar kritis, dan pengamalan nilai Islam.`;
+    }
+
+    function updateExternalAiLinks() {
+      const d = getFormData();
+      const prompt = buildRichPrompt(d);
+      const enc = encodeURIComponent(prompt);
+      if ($("linkGemini")) $("linkGemini").href = `https://gemini.google.com/app?q=${enc}`;
+      if ($("linkChatGpt")) $("linkChatGpt").href = `https://chatgpt.com/?q=${enc}`;
+      if ($("linkClaude")) $("linkClaude").href = `https://claude.ai/new?q=${enc}`;
+    }
+
+    // INTEGRASI GEMINI AI UNTUK MENGHASILKAN KONTEN YANG KAYA & BERIDE SEGAR
+    async function generateWithGeminiAI(customTriggerNote = "") {
+      if (isGeneratingAi) return;
+      const d = getFormData();
+      const btn = $("btnGenerateAi");
+      const btnIcon = $("btnGenIcon");
+      const btnText = $("btnGenText");
+      const badge = $("aiBadgeStatus");
+
+      // Ambil API Key (kosong di runtime Canvas agar otomatis diinjeksi; atau dari localStorage pengunjung di GitHub Pages)
+      const userSavedKey = (localStorage.getItem("sohib_pai_gemini_key") || "").trim();
+      const apiKey = userSavedKey || "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      isGeneratingAi = true;
+      if (btn) btn.disabled = true;
+      if (btnIcon) btnIcon.innerHTML = `<span class="spinner-inline"></span>`;
+      if (btnText) btnText.textContent = "AI Sedang Merangkai Ide Kaya...";
+      if (badge) {
+        badge.textContent = "⏳ AI Merancang Gagasan...";
+        badge.style.background = "var(--gold-soft)";
+        badge.style.color = "#6E4E12";
+      }
+
+      const systemInstruction = `Anda adalah Guru Besar & Pakar Inovasi Pembelajaran PAI Indonesia yang terkenal merancang perangkat ajar menyentuh hati, kaya ide kreatif, menggunakan analogi segar, studi kasus nyata remaja/anak masa kini, dan memicu nalar kritis (HOTS). Dilarang memakai kalimat normatif yang kaku atau berulang. Gunakan bahasa Indonesia yang mengalir, hangat, akademis namun membumi.`;
+
+      const userQuery = `Buatkan konten lengkap dan kaya gagasan untuk perangkat ajar "${d.jenis}" mata pelajaran PAI:
+- Kurikulum: ${d.kurikulum}
+- Jenjang/Kelas/Fase: ${d.jenjang} / ${d.kelas} (${d.fase})
+- Elemen: ${d.elemen}
+- Topik: "${d.topik}"
+- Model Pembelajaran: ${d.model}
+- Dalil Rujukan: QS. ${d.surahNama} [${d.surahNo}]: ${d.ayat1}${d.ayat2 !== d.ayat1 ? "-" + d.ayat2 : ""} dan ${d.kitabNama}${d.noHadis ? " No. " + d.noHadis : ""}
+${d.lkpdTipe ? `- Bentuk Aktivitas LKPD: ${d.lkpdTipe}` : ""}
+${d.lkpdStimulus ? `- Ide Awal Stimulus Guru: ${d.lkpdStimulus}` : ""}
+${d.lkpdRequest ? `- Request Kustom LKPD: ${d.lkpdRequest}` : ""}
+${d.asesmenJenis ? `- Jenis Asesmen: ${d.asesmenJenis} (${d.asesmenKomposisi})` : ""}
+${d.asesmenRequest ? `- Fokus Soal Asesmen: ${d.asesmenRequest}` : ""}
+${d.uploadedText ? `- Materi Referensi yang Diunggah Guru:\n${d.uploadedText.slice(0, 2200)}` : ""}
+${customTriggerNote ? `- Arahan Tambahan: ${customTriggerNote}` : ""}
+
+Berikan gagasan yang benar-benar orisinal, kreatif, memutar otak siswa, dan kaya makna spiritual.`;
+
+      const responseSchema = {
+        type: "OBJECT",
+        properties: {
+          tujuanPembelajaran: {
+            type: "ARRAY",
+            items: { type: "STRING" },
+            description: "3 tujuan pembelajaran spesifik, operasional (ABCD), dan bermakna."
+          },
+          pemahamanBermakna: {
+            type: "STRING",
+            description: "1 paragraf menyentuh hati tentang mengapa materi ini penting bagi kehidupan nyata siswa."
+          },
+          pertanyaanPemantik: {
+            type: "ARRAY",
+            items: { type: "STRING" },
+            description: "3 pertanyaan pemantik yang memutar otak siswa, memakai analogi/dilema nyata sehari-hari."
+          },
+          ideKreatifIceBreaking: {
+            type: "STRING",
+            description: "1 ide aktivitas pembuka/ice breaking atau simulasi unik berdurasi 5 menit yang relevan dengan topik."
+          },
+          kegiatanIntiLangkah: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                tahap: { type: "STRING" },
+                aktivitasGuruSiswa: { type: "STRING" }
+              },
+              required: ["tahap", "aktivitasGuruSiswa"]
+            },
+            description: "4-5 langkah sintaks model pembelajaran yang kaya interaksi, diskusi kasus, dan tadabur dalil."
+          },
+          ringkasanMateriKaya: {
+            type: "STRING",
+            description: "Uraian intisari materi mendalam (2-3 paragraf ringkas) berisi hikmah, nilai karakter/Cinta Kemenag, dan penerapan nyata."
+          },
+          stimulusStudiKasus: {
+            type: "STRING",
+            description: "Cerita studi kasus atau skenario permainan/misi yang seru dan menantang daya nalar siswa untuk LKPD."
+          },
+          tugasLkpdKreatif: {
+            type: "ARRAY",
+            items: { type: "STRING" },
+            description: "3-4 instruksi tantangan/pertanyaan LKPD yang memancing siswa berpikir kritis dan berkolaborasi."
+          },
+          soalPilihanGanda: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                indikator: { type: "STRING" },
+                level: { type: "STRING" },
+                pertanyaan: { type: "STRING" },
+                opsiA: { type: "STRING" },
+                opsiB: { type: "STRING" },
+                opsiC: { type: "STRING" },
+                opsiD: { type: "STRING" },
+                opsiE: { type: "STRING" },
+                kunci: { type: "STRING" },
+                pembahasan: { type: "STRING" }
+              },
+              required: ["indikator", "level", "pertanyaan", "opsiA", "opsiB", "opsiC", "opsiD", "kunci", "pembahasan"]
+            },
+            description: "5 soal pilihan ganda HOTS berbasis stimulus cerita/dalil."
+          },
+          soalUraianHots: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                indikator: { type: "STRING" },
+                level: { type: "STRING" },
+                pertanyaan: { type: "STRING" },
+                rambuJawaban: { type: "STRING" },
+                skorMaks: { type: "NUMBER" }
+              },
+              required: ["indikator", "level", "pertanyaan", "rambuJawaban", "skorMaks"]
+            },
+            description: "3 soal uraian analisis kasus mendalam beserta rambu-rambu jawaban."
+          },
+          refleksiSiswa: {
+            type: "STRING",
+            description: "2 pertanyaan muhasabah diri yang jujur dan menyentuh hati siswa."
+          }
+        },
+        required: [
+          "tujuanPembelajaran", "pemahamanBermakna", "pertanyaanPemantik",
+          "ideKreatifIceBreaking", "kegiatanIntiLangkah", "ringkasanMateriKaya",
+          "stimulusStudiKasus", "tugasLkpdKreatif", "soalPilihanGanda",
+          "soalUraianHots", "refleksiSiswa"
+        ]
+      };
+
+      const payload = {
+        contents: [{ parts: [{ text: userQuery }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: responseSchema,
+          temperature: 0.85
+        }
+      };
+
+      let attempt = 0;
+      const maxRetries = 3;
+      let successResult = null;
+
+      while (attempt < maxRetries && !successResult) {
+        try {
+          const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const result = await response.json();
+          const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (rawText) {
+            successResult = JSON.parse(rawText);
+          } else {
+            throw new Error("Empty AI response");
+          }
+        } catch (err) {
+          attempt++;
+          if (attempt < maxRetries) {
+            await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt - 1)));
+          }
+        }
+      }
+
+      isGeneratingAi = false;
+      if (btn) btn.disabled = false;
+      if (btnIcon) btnIcon.textContent = "✨";
+      if (btnText) btnText.textContent = "Susun Perangkat Ajar dengan AI";
+
+      if (successResult) {
+        aiGeneratedRichData = successResult;
+        if (badge) {
+          badge.textContent = "✨ Disusun AI (Gagasan Kaya)";
+          badge.style.background = "var(--pastel-mint)";
+          badge.style.color = "var(--emerald)";
+        }
+        renderDocumentPreview();
+        $("previewSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast("✨ Perangkat ajar kaya ide & studi kasus berhasil disusun oleh AI!");
+      } else {
+        // Fallback cerdas lokal jika offline atau di GitHub Pages tanpa API key
+        aiGeneratedRichData = buildSmartOfflineFallback(d);
+        if (badge) {
+          badge.textContent = "📝 Draf Cerdas Bawaan";
+          badge.style.background = "var(--pastel-cream)";
+          badge.style.color = "#6E4E12";
+        }
+        renderDocumentPreview();
+        $("previewSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast("Draf perangkat ajar berhasil disusun! (Tambahkan Gemini API Key di pengaturan jika ingin mode AI penuh di GitHub).");
+      }
+    }
+
+    // FALLBACK CERDAS JIKA OFFLINE / TANPA API KEY DI GITHUB PAGES
+    function buildSmartOfflineFallback(d) {
+      const topik = d.topik;
+      const dalilLabel = `QS. ${d.surahNama} [${d.surahNo}]: ${d.ayat1}${d.ayat2 !== d.ayat1 ? "–" + d.ayat2 : ""}`;
+      return {
+        tujuanPembelajaran: [
+          `Peserta didik mampu menelaah makna mendalam dan pesan utama ${dalilLabel} terkait "${topik}" dengan penuh ketelitian dan rasa ingin tahu.`,
+          `Peserta didik mampu menganalisis studi kasus nyata di lingkungan sekolah dan keluarga yang berkaitan dengan nilai "${topik}" secara kritis.`,
+          `Peserta didik mampu merancang komitmen pembiasaan nyata sebagai wujud pengamalan "${topik}" dalam keseharian dengan penuh kesadaran.`
+        ],
+        pemahamanBermakna: `Mempelajari "${topik}" bukan sekadar menambah hafalan pengetahuan agama, melainkan membangun kompas hati agar setiap keputusan kita di tengah tantangan zaman tetap berpijak pada ketenangan iman, kejujuran, dan kasih sayang kepada sesama.`,
+        pertanyaanPemantik: [
+          `Bayangkan jika seseorang berada di situasi sepi tanpa pengawasan siapa pun, apa yang membuat hatinya tetap memilih kebenaran dalam konteks "${topik}"?`,
+          `Mengapa nilai-nilai dalam "${topik}" sering dianggap menantang untuk dipraktikkan di era media sosial saat ini, dan bagaimana solusi terbaik menurutmu?`,
+          `Perubahan kecil apa yang langsung terasa di lingkungan kelas kita jika seluruh siswa mengamalkan hikmah "${topik}" hari ini?`
+        ],
+        ideKreatifIceBreaking: `Simulasi "Kompas Dilema 3 Menit": Guru membacakan 2 situasi dilematis singkat terkait "${topik}", siswa mengangkat kartu warna (Hijau = Setuju Penuh, Kuning = Perlu Pertimbangan Adab) lalu 2 perwakilan menyampaikan alasan kritisnya.`,
+        kegiatanIntiLangkah: [
+          {
+            tahap: "1. Orientasi Masalah & Tadabur Dalil",
+            aktivitasGuruSiswa: `Siswa membaca dan mencermati ${dalilLabel} secara tartil, lalu membedah studi kasus nyata seputar "${topik}" yang disajikan guru.`
+          },
+          {
+            tahap: "2. Eksplorasi & Investigasi Kelompok",
+            aktivitasGuruSiswa: `Dalam kelompok kecil (4–5 orang), siswa mencari akar masalah, dampak sikap, dan solusi islami berdasarkan dalil Al-Qur'an dan ${d.kitabNama}.`
+          },
+          {
+            tahap: "3. Elaborasi Gagasan & Presentasi Kreatif",
+            aktivitasGuruSiswa: `Setiap kelompok mempresentasikan peta solusi atau bermain peran singkat tentang penerapan "${topik}", sementara kelompok lain memberikan tanggapan kritis.`
+          },
+          {
+            tahap: "4. Penguatan Nilai & Refleksi Hati",
+            aktivitasGuruSiswa: `Guru mengaitkan temuan siswa dengan nilai kasih sayang dan akhlak mulia, ditutup dengan komitmen amal harian.`
+          }
+        ],
+        ringkasanMateriKaya: `Materi "${topik}" dalam elemen ${d.elemen} mengajarkan keseimbangan antara keyakinan yang kokoh di dalam hati, pemahaman dalil yang sahih (${dalilLabel}), serta wujud nyata dalam perilaku sehari-hari. Ketika nilai ini dihayati dengan penuh kesadaran, seorang pelajar muslim tidak hanya saleh secara ritual, tetapi juga menghadirkan rasa aman, jujur, dan damai bagi teman-teman di sekitarnya.`,
+        stimulusStudiKasus: d.lkpdStimulus || `Di sekolah, muncul sebuah persoalan nyata yang menguji pemahaman siswa tentang "${topik}". Sebagian teman menganggap hal itu sepele karena dilakukan banyak orang, namun nurani dan tuntunan ${dalilLabel} mengingatkan adanya tanggung jawab di hadapan Allah Swt. Bagaimana kelompokmu menganalisis sikap terbaik dalam situasi tersebut?`,
+        tugasLkpdKreatif: [
+          `Bedah Dalil: Tuliskan pesan utama dari ${dalilLabel} dan jelaskan hubungan langsungnya dengan studi kasus di atas!`,
+          `Analisis Dampak: Bandingkan 2 dampak positif jika nilai "${topik}" diamalkan dengan 2 kerugian nyata jika diabaikan dalam pergaulan remaja!`,
+          `Rencana Aksi Nyata: Susun 1 langkah konkret yang dapat langsung kalian praktikkan di sekolah minggu ini beserta indikator keberhasilannya!`
+        ],
+        soalPilihanGanda: [
+          {
+            indikator: `Menganalisis kandungan dalil terkait ${topik}`,
+            level: "C4 (Menganalisis)",
+            pertanyaan: `Perhatikan rujukan ${dalilLabel}. Sikap paling tepat yang mencerminkan penghayatan mendalam terhadap nilai "${topik}" dalam kehidupan pelajar adalah...`,
+            opsiA: "Menghafal seluruh definisi materi tanpa perlu mengaitkannya dengan perilaku di sekolah",
+            opsiB: "Menjadikan nilai ajaran tersebut sebagai landasan bersikap jujur, santun, dan bertanggung jawab meski tidak diawasi guru",
+            opsiC: "Hanya menjalankan aturan agama ketika sedang mengikuti penilaian praktik di kelas",
+            opsiD: "Menyalahkan teman yang belum memahami materi tanpa memberikan teladan yang baik",
+            opsiE: "Menunda pengamalan nilai kebaikan hingga menunggu usia dewasa nanti",
+            kunci: "B",
+            pembahasan: "Penghayatan ajaran PAI tampak pada kesadaran diri (muraqabah) untuk beramal secara konsisten tanpa bergantung pada pengawasan manusia."
+          },
+          {
+            indikator: `Mengevaluasi studi kasus penerapan ${topik}`,
+            level: "C5 (Mengevaluasi)",
+            pertanyaan: `Rafi menemukan catatan penting milik teman sebangkunya yang berisi bocoran jawaban ujian harian. Jika Rafi memegang teguh prinsip "${topik}", keputusan paling bijak yang harus ia ambil adalah...`,
+            opsiA: "Membagikannya ke grup kelas agar semua teman mendapat nilai tinggi",
+            opsiB: "Menyimpannya sendiri untuk digunakan saat ujian berlangsung",
+            opsiC: "Menjaga amanah dengan tidak menyebarkannya, mengembalikannya secara baik-baik, dan mengingatkan temannya dengan santun",
+            opsiD: "Membiarkannya tergeletak di lantai kelas tanpa peduli",
+            opsiE: "Menyobek catatan tersebut di depan umum agar temannya merasa malu",
+            kunci: "C",
+            pembahasan: "Menggabungkan keteguhan prinsip kebenaran dengan adab menasihati secara santun adalah cerminan akhlak mulia."
+          },
+          {
+            indikator: `Menghubungkan nilai ${topik} dengan interaksi sosial`,
+            level: "C3 (Menerapkan)",
+            pertanyaan: `Dalam ruang digital dan media sosial, wujud nyata pengamalan nilai "${topik}" ditunjukkan dengan perilaku...`,
+            opsiA: "Menyebarkan informasi yang belum jelas kebenarannya demi popularitas",
+            opsiB: "Melakukan tabayyun (cek fakta) sebelum membagikan pesan serta menjaga tutur kata yang menenangkan",
+            opsiC: "Mengomentari unggahan orang lain dengan kalimat merendahkan",
+            opsiD: "Menggunakan akun anonim untuk menghindari tanggung jawab ucapan",
+            opsiE: "Menghabiskan seluruh waktu malam untuk bermain gim hingga melalaikan salat Subuh",
+            kunci: "B",
+            pembahasan: "Tabayyun dan menjaga lisan/tulisan merupakan implementasi langsung nilai PAI di era digital."
+          }
+        ],
+        soalUraianHots: [
+          {
+            indikator: `Menganalisis relevansi ${topik} dalam kehidupan remaja`,
+            level: "C4 (Menganalisis)",
+            pertanyaan: `Mengapa pemahaman tentang "${topik}" sangat dibutuhkan oleh pelajar di tengah derasnya arus informasi digital saat ini? Jelaskan 2 alasan beserta contoh konkretnya!`,
+            rambuJawaban: "Skor penuh jika siswa menjelaskan 2 alasan logis (misal: menjaga integritas diri & filter pergaulan) disertai contoh nyata di sekolah/media sosial.",
+            skorMaks: 35
+          },
+          {
+            indikator: `Merancang solusi atas dilema akhlak/ibadah`,
+            level: "C5 (Mengevaluasi)",
+            pertanyaan: `Jika kamu melihat teman akrabmu mulai melalaikan nilai-nilai dalam "${topik}", langkah pendekatan seperti apa yang paling efektif dan santun agar ia tersentuh hatinya tanpa merasa dihakimi?`,
+            rambuJawaban: "Menyebutkan pendekatan empatik: mengajak berdialog empat mata, memberi teladan nyata, mendoakan, dan mengajak dalam lingkungan positif.",
+            skorMaks: 35
+          },
+          {
+            indikator: `Menyimpulkan hikmah dalil rujukan`,
+            level: "C4 (Menganalisis)",
+            pertanyaan: `Jelaskan hubungan antara pesan ${dalilLabel} dengan pembentukan karakter kasih sayang dan tanggung jawab peserta didik!`,
+            rambuJawaban: "Menguraikan keterkaitan teks dalil dengan kesadaran bertakwa kepada Allah dan berbuat baik kepada sesama.",
+            skorMaks: 30
+          }
+        ],
+        refleksiSiswa: "1. Nilai kebaikan apa dari materi hari ini yang paling menyentuh hatimu? 2. Kebiasaan baru apa yang siap kamu mulai sejak hari ini?"
+      };
+    }
+
+    // RENDER PRATINJAU DOKUMEN KERTAS A4
+    function renderDocumentPreview() {
+      const d = getFormData();
+      const sheet = $("a4Preview");
+      if (!sheet) return;
+
+      sheet.setAttribute("data-doc-theme", $("docTheme")?.value || "sage");
+
+      const rich = aiGeneratedRichData || buildSmartOfflineFallback(d);
+      const ayatRange = d.ayat1 === d.ayat2 ? d.ayat1 : `${d.ayat1}–${d.ayat2}`;
+      const dalilText = `QS. ${escapeHtml(d.surahNama)} [${d.surahNo}]: ${ayatRange}${d.noHadis ? ` & ${escapeHtml(d.kitabNama)} No. ${escapeHtml(d.noHadis)}` : ` (${escapeHtml(d.kitabNama)})`}`;
+
+      const kopHtml = d.kopLembaga ? `
+        <div class="kop-lembaga">
+          <div class="kop-title">${escapeHtml(d.sekolah)}</div>
+          <div class="kop-sub">Dokumen Perangkat Pembelajaran Pendidikan Agama Islam dan Budi Pekerti • Tahun Pelajaran ${escapeHtml(d.tahun)}</div>
+        </div>
+      ` : "";
+
+      const dalilBlockHtml = `
+        <div class="doc-box" style="border-top:1pt solid var(--doc-border);margin-top:6pt;background:#FAFAFA">
+          <strong>Dalil Rujukan Utama:</strong> ${dalilText}
+          ${d.arab ? `<div class="doc-arabic" lang="ar" dir="rtl">${escapeHtml(d.arab)}</div>` : ""}
+          ${d.terjemah ? `<div style="font-style:italic;margin-top:3pt">Artinya: “${escapeHtml(d.terjemah)}”</div>` : ""}
+        </div>
+      `;
+
+      const embedImgHtml = d.embedImage ? `
+        <div style="text-align:center;margin:8pt 0">
+          <img src="${uploadedImageDataUrl}" alt="Lampiran Materi" style="max-width:75%;max-height:160pt;border:1pt solid var(--doc-border);padding:3pt">
+        </div>
+      ` : "";
+
+      let bodyHtml = "";
+
+      if (d.jenis === "LKPD") {
+        // LKPD: TANPA IDENTITAS PERANGKAT AJAR & TANPA TANDA TANGAN GURU/KEPSEK
+        const tugasList = (rich.tugasLkpdKreatif || []).map((t, i) => `
+          <div style="margin-bottom:8pt">
+            <strong>${i + 1}. ${escapeHtml(t)}</strong>
+            <div style="border-bottom:1pt dotted #777;height:18pt;margin-top:3pt"></div>
+            <div style="border-bottom:1pt dotted #777;height:18pt;margin-top:3pt"></div>
+          </div>
+        `).join("");
+
+        bodyHtml = `
+          ${kopHtml}
+          <div class="doc-header">
+            <h1>LEMBAR KERJA PESERTA DIDIK (LKPD)</h1>
+            <p>${escapeHtml(d.mapel)} • ${escapeHtml(d.kelas)} (${escapeHtml(d.fase)}) • Topik: ${escapeHtml(d.topik)}</p>
+          </div>
+
+          <div class="doc-sec">I. Identitas Peserta Didik / Kelompok</div>
+          <table class="doc-table">
+            <tr>
+              <th style="width:24%">Nama / Kelompok</th>
+              <td style="width:41%">........................................................</td>
+              <th style="width:15%">Kelas</th>
+              <td style="width:20%">${escapeHtml(d.kelas)}</td>
+            </tr>
+            <tr>
+              <th>Anggota</th>
+              <td>1. ........................... 2. ...........................</td>
+              <th>Tanggal</th>
+              <td>...........................</td>
+            </tr>
+          </table>
+
+          <div class="doc-sec">II. Tujuan Belajar &amp; Doa Pembuka</div>
+          <div class="doc-box">
+            <div style="text-align:center;margin-bottom:4pt">
+              <span style="font-family:Amiri,serif;font-size:14pt">رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا</span><br>
+              <em style="font-size:9.5pt">“Ya Tuhanku, tambahkanlah ilmu kepadaku dan anugerahkanlah aku pemahaman.”</em>
+            </div>
+            <strong>Tujuan Kegiatan:</strong>
+            <ol style="margin:3pt 0 0;padding-left:16pt">
+              ${(rich.tujuanPembelajaran || []).map(t => `<li>${escapeHtml(t)}</li>`).join("")}
+            </ol>
+          </div>
+
+          ${dalilBlockHtml}
+          ${embedImgHtml}
+
+          <div class="doc-sec">III. Stimulus &amp; Tantangan Berpikir (${escapeHtml(d.lkpdTipe)})</div>
+          <div class="doc-box" style="background:#FFFDF7">
+            <p style="margin:0">${escapeHtml(rich.stimulusStudiKasus)}</p>
+          </div>
+
+          <div class="doc-sec">IV. Lembar Aktivitas &amp; Eksplorasi Siswa</div>
+          <div class="doc-box">
+            ${tugasList}
+          </div>
+
+          <div class="doc-sec">V. Muhasabah Diri &amp; Penilaian</div>
+          <table class="doc-table">
+            <tr>
+              <td style="width:68%">
+                <strong>Refleksi Hati Siswa:</strong><br>
+                <em>${escapeHtml(rich.refleksiSiswa)}</em>
+                <div style="border-bottom:1pt dotted #777;height:18pt;margin-top:4pt"></div>
+              </td>
+              <td style="width:32%;text-align:center">
+                <strong>Nilai / Predikat</strong>
+                <div style="height:34pt"></div>
+                <span style="font-size:9pt;color:#555">Paraf Guru</span>
+              </td>
+            </tr>
+          </table>
+        `;
+      } else if (d.jenis === "Asesmen / Evaluasi") {
+        // ASESMEN / EVALUASI LENGKAP
+        const [pgTargetStr, urTargetStr] = (d.asesmenKomposisi || "5-3").split("-");
+        const pgTarget = parseInt(pgTargetStr, 10) || 5;
+        const urTarget = parseInt(urTargetStr, 10) || 3;
+        const isSma = d.jenjang === "SMA/MA";
+        const isGuruMode = d.asesmenMode === "guru";
+
+        let pgList = [...(rich.soalPilihanGanda || [])];
+        while (pgList.length < pgTarget) {
+          const base = pgList[pgList.length % (rich.soalPilihanGanda.length || 1)] || buildSmartOfflineFallback(d).soalPilihanGanda[0];
+          pgList.push({
+            ...base,
+            pertanyaan: `${base.pertanyaan} (Pengembangan Analisis #${pgList.length + 1})`
+          });
+        }
+        pgList = pgList.slice(0, pgTarget);
+
+        let urList = [...(rich.soalUraianHots || [])];
+        while (urList.length < urTarget) {
+          const baseU = urList[urList.length % (rich.soalUraianHots.length || 1)] || buildSmartOfflineFallback(d).soalUraianHots[0];
+          urList.push({
+            ...baseU,
+            pertanyaan: `${baseU.pertanyaan} (Studi Kasus Lanjutan #${urList.length + 1})`
+          });
+        }
+        urList = urList.slice(0, urTarget);
+
+        const kisiRows = [
+          ...pgList.map((s, idx) => `
+            <tr>
+              <td style="text-align:center">${idx + 1}</td>
+              <td>${escapeHtml(s.indikator)}</td>
+              <td>${escapeHtml(d.topik)}</td>
+              <td style="text-align:center">${escapeHtml(s.level)}</td>
+              <td style="text-align:center">Pilihan Ganda</td>
+            </tr>
+          `),
+          ...urList.map((u, idx) => `
+            <tr>
+              <td style="text-align:center">${pgList.length + idx + 1}</td>
+              <td>${escapeHtml(u.indikator)}</td>
+              <td>${escapeHtml(d.topik)}</td>
+              <td style="text-align:center">${escapeHtml(u.level)}</td>
+              <td style="text-align:center">Uraian</td>
+            </tr>
+          `)
+        ].join("");
+
+        const pgHtml = pgList.map((s, idx) => `
+          <div style="margin-bottom:7pt">
+            <div><strong>${idx + 1}.</strong> ${escapeHtml(s.pertanyaan)}</div>
+            <div style="padding-left:14pt">
+              <div>A. ${escapeHtml(s.opsiA)}</div>
+              <div>B. ${escapeHtml(s.opsiB)}</div>
+              <div>C. ${escapeHtml(s.opsiC)}</div>
+              <div>D. ${escapeHtml(s.opsiD)}</div>
+              ${isSma && s.opsiE ? `<div>E. ${escapeHtml(s.opsiE)}</div>` : ""}
+            </div>
+          </div>
+        `).join("");
+
+        const urHtml = urList.map((u, idx) => `
+          <div style="margin-bottom:7pt">
+            <div><strong>${idx + 1}.</strong> ${escapeHtml(u.pertanyaan)} <em>(Skor maks: ${u.skorMaks || 30})</em></div>
+            ${!isGuruMode ? `<div style="border-bottom:1pt dotted #777;height:18pt;margin-top:3pt"></div><div style="border-bottom:1pt dotted #777;height:18pt;margin-top:3pt"></div>` : ""}
+          </div>
+        `).join("");
+
+        const kunciGuruHtml = isGuruMode ? `
+          <div class="doc-sec">I. Kisi-Kisi Penulisan Soal</div>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width:7%;text-align:center">No</th>
+                <th style="width:38%">Indikator Soal</th>
+                <th style="width:23%">Materi Pokok</th>
+                <th style="width:16%;text-align:center">Level</th>
+                <th style="width:16%;text-align:center">Bentuk</th>
+              </tr>
+            </thead>
+            <tbody>${kisiRows}</tbody>
+          </table>
+        ` : "";
+
+        const kunciJawabanHtml = isGuruMode ? `
+          <div class="doc-sec">IV. Kunci Jawaban &amp; Pedoman Penskoran</div>
+          <div class="doc-box">
+            <strong>A. Kunci Pilihan Ganda:</strong><br>
+            ${pgList.map((s, idx) => `${idx + 1}. <strong>${escapeHtml(s.kunci)}</strong> (${escapeHtml(s.pembahasan)})`).join("<br>")}
+            <br><br>
+            <strong>B. Rambu Jawaban Uraian:</strong><br>
+            ${urList.map((u, idx) => `${idx + 1}. ${escapeHtml(u.rambuJawaban)} <em>[Skor Maks: ${u.skorMaks || 30}]</em>`).join("<br>")}
+            <div style="margin-top:6pt;padding-top:4pt;border-top:1pt dashed var(--doc-border)">
+              <strong>Rumus Nilai Akhir:</strong> Nilai = (Total Skor Perolehan ÷ Skor Maksimal) × 100
+            </div>
+          </div>
+        ` : "";
+
+        bodyHtml = `
+          ${kopHtml}
+          <div class="doc-header">
+            <h1>${escapeHtml(d.asesmenJenis)}</h1>
+            <p>${escapeHtml(d.mapel)} • ${escapeHtml(d.kurikulum)} • ${escapeHtml(d.kelas)} (${escapeHtml(d.fase)})</p>
+          </div>
+
+          <table class="doc-table">
+            <tr>
+              <th style="width:20%">Mata Pelajaran</th>
+              <td style="width:35%">${escapeHtml(d.mapel)}</td>
+              <th style="width:20%">Nama Siswa</th>
+              <td style="width:25%">....................................</td>
+            </tr>
+            <tr>
+              <th>Elemen / Topik</th>
+              <td>${escapeHtml(d.elemen)} / ${escapeHtml(d.topik)}</td>
+              <th>Kelas / No. Absen</th>
+              <td>${escapeHtml(d.kelas)} / ........</td>
+            </tr>
+            <tr>
+              <th>Alokasi Waktu</th>
+              <td>${escapeHtml(d.alokasi)}</td>
+              <th>Hari / Tanggal</th>
+              <td>....................................</td>
+            </tr>
+          </table>
+
+          ${kunciGuruHtml}
+          ${embedImgHtml}
+
+          <div class="doc-sec">${isGuruMode ? "II" : "I"}. Soal Pilihan Ganda</div>
+          <div class="doc-box">${pgHtml}</div>
+
+          <div class="doc-sec">${isGuruMode ? "III" : "II"}. Soal Uraian &amp; Analisis Kasus (HOTS)</div>
+          <div class="doc-box">${urHtml}</div>
+
+          ${kunciJawabanHtml}
+
+          <div class="doc-sec">${isGuruMode ? "V" : "III"}. Rubrik Penilaian Sikap &amp; Praktik Khas PAI</div>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width:28%">Aspek Penilaian</th>
+                <th>Kriteria Skor 4 (Sangat Baik)</th>
+                <th>Kriteria Skor 3 (Baik)</th>
+                <th>Kriteria Skor 2 (Cukup)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Adab &amp; Sikap Spiritual</strong></td>
+                <td>Menunjukkan antusiasme, santun, dan konsisten mengamalkan nilai materi.</td>
+                <td>Menunjukkan sikap santun dan mulai membiasakan nilai materi dengan baik.</td>
+                <td>Memerlukan bimbingan dan pengingat untuk membiasakan adab materi.</td>
+              </tr>
+              <tr>
+                <td><strong>Kefasihan Dalil / Praktik</strong></td>
+                <td>Membaca dalil dengan tartil/tajwid tepat serta memahami maknanya.</td>
+                <td>Membaca dalil dengan lancar namun masih ada sedikit kekeliruan harakat.</td>
+                <td>Membaca dalil terbata-bata dan memerlukan pendampingan guru.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="doc-sign">
+            <tr>
+              <td>
+                Mengetahui,<br>Kepala Sekolah / Madrasah<br><br><br><br>
+                <strong><u>${escapeHtml(d.kepsek)}</u></strong><br>
+                ${d.nipKepsek ? `NIP. ${escapeHtml(d.nipKepsek)}` : "NIP. ........................................"}
+              </td>
+              <td>
+                ${escapeHtml(d.tempatTgl)}<br>Guru Mata Pelajaran PAI<br><br><br><br>
+                <strong><u>${escapeHtml(d.penyusun)}</u></strong><br>
+                ${d.nip ? `NIP/NIM. ${escapeHtml(d.nip)}` : "NIP. ........................................"}
+              </td>
+            </tr>
+          </table>
+        `;
+      } else {
+        // MODUL AJAR LENGKAP & KAYA IDE
+        const langkahRows = (rich.kegiatanIntiLangkah || []).map(l => `
+          <tr>
+            <th style="width:28%">${escapeHtml(l.tahap)}</th>
+            <td>${escapeHtml(l.aktivitasGuruSiswa)}</td>
+          </tr>
+        `).join("");
+
+        bodyHtml = `
+          ${kopHtml}
+          <div class="doc-header">
+            <h1>MODUL AJAR ${escapeHtml(d.mapel)}</h1>
+            <p>${escapeHtml(d.kurikulum)} • Tahun Pelajaran ${escapeHtml(d.tahun)}</p>
+          </div>
+
+          <div class="doc-sec">I. Informasi Umum</div>
+          <table class="doc-table">
+            <tr>
+              <th style="width:25%">Nama Penyusun</th>
+              <td style="width:25%">${escapeHtml(d.penyusun)}</td>
+              <th style="width:25%">Jenjang / Kelas</th>
+              <td style="width:25%">${escapeHtml(d.jenjang)} / ${escapeHtml(d.kelas)}</td>
+            </tr>
+            <tr>
+              <th>Satuan Pendidikan</th>
+              <td>${escapeHtml(d.sekolah)}</td>
+              <th>Fase / Semester</th>
+              <td>${escapeHtml(d.fase)} / ${escapeHtml(d.semester)}</td>
+            </tr>
+            <tr>
+              <th>Elemen PAI</th>
+              <td>${escapeHtml(d.elemen)}</td>
+              <th>Alokasi Waktu</th>
+              <td>${escapeHtml(d.alokasi)} (${escapeHtml(d.pertemuan)} Pertemuan)</td>
+            </tr>
+            <tr>
+              <th>Topik Materi</th>
+              <td><strong>${escapeHtml(d.topik)}</strong></td>
+              <th>Model Pembelajaran</th>
+              <td>${escapeHtml(d.model)}</td>
+            </tr>
+          </table>
+
+          ${dalilBlockHtml}
+          ${embedImgHtml}
+
+          <div class="doc-sec">II. Komponen Inti &amp; Gagasan Pembelajaran</div>
+          <div class="doc-box">
+            <strong>A. Tujuan Pembelajaran:</strong>
+            <ol style="margin:3pt 0 6pt;padding-left:16pt">
+              ${(rich.tujuanPembelajaran || []).map(t => `<li>${escapeHtml(t)}</li>`).join("")}
+            </ol>
+
+            <strong>B. Pemahaman Bermakna:</strong>
+            <p style="margin:2pt 0 6pt">${escapeHtml(rich.pemahamanBermakna)}</p>
+
+            <strong>C. Pertanyaan Pemantik (Memicu Nalar Kritis):</strong>
+            <ul style="margin:3pt 0 6pt;padding-left:16pt">
+              ${(rich.pertanyaanPemantik || []).map(p => `<li>${escapeHtml(p)}</li>`).join("")}
+            </ul>
+
+            <strong>D. Ide Aktivitas Pembuka / Ice Breaking Bermakna:</strong>
+            <p style="margin:2pt 0 0">${escapeHtml(rich.ideKreatifIceBreaking)}</p>
+          </div>
+
+          <div class="doc-sec">III. Skenario Kegiatan Pembelajaran (${escapeHtml(d.model)})</div>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width:28%">Tahap Pembelajaran</th>
+                <th>Rincian Aktivitas Guru &amp; Peserta Didik</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Pendahuluan (10 Menit)</th>
+                <td>Guru membuka kelas dengan salam hangat, doa bersama, tadarus singkat ${dalilText}, apersepsi kontekstual, dan menyampaikan tujuan belajar.</td>
+              </tr>
+              ${langkahRows}
+              <tr>
+                <th>Penutup &amp; Muhasabah (10 Menit)</th>
+                <td>Siswa menyimpulkan hikmah pembelajaran, mengisi refleksi hati, menerima umpan balik apresiatif dari guru, dan menutup dengan doa kafaratul majelis.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="doc-sec">IV. Uraian Materi &amp; Pendalaman Nilai</div>
+          <div class="doc-box">
+            <p style="margin:0;white-space:pre-line">${escapeHtml(rich.ringkasanMateriKaya)}</p>
+            ${d.uploadedText ? `<div style="margin-top:6pt;padding-top:5pt;border-top:1pt dashed var(--doc-border)"><strong>Catatan Referensi Tambahan Guru:</strong><br>${escapeHtml(d.uploadedText)}</div>` : ""}
+          </div>
+
+          <div class="doc-sec">V. Asesmen &amp; Refleksi Pembelajaran</div>
+          <div class="doc-box">
+            <strong>1. Asesmen Formatif &amp; Sumatif:</strong> Observasi adab dan keaktifan diskusi kelompok, unjuk kerja analisis studi kasus, serta tes pemahaman makna dalil.<br>
+            <strong>2. Pertanyaan Refleksi Peserta Didik:</strong> ${escapeHtml(rich.refleksiSiswa)}
+          </div>
+
+          <table class="doc-sign">
+            <tr>
+              <td>
+                Mengetahui,<br>Kepala Sekolah / Madrasah<br><br><br><br>
+                <strong><u>${escapeHtml(d.kepsek)}</u></strong><br>
+                ${d.nipKepsek ? `NIP. ${escapeHtml(d.nipKepsek)}` : "NIP. ........................................"}
+              </td>
+              <td>
+                ${escapeHtml(d.tempatTgl)}<br>Guru Mata Pelajaran PAI<br><br><br><br>
+                <strong><u>${escapeHtml(d.penyusun)}</u></strong><br>
+                ${d.nip ? `NIP/NIM. ${escapeHtml(d.nip)}` : "NIP. ........................................"}
+              </td>
+            </tr>
+          </table>
+        `;
+      }
+
+      sheet.innerHTML = bodyHtml;
+      updateWordCount();
+      updateExternalAiLinks();
+      saveDraftToLocal();
+    }
+
+    function updateWordCount() {
+      const sheet = $("a4Preview");
+      const counter = $("docWordCount");
+      if (!sheet || !counter) return;
+      const words = (sheet.innerText || "").trim().split(/\s+/).filter(Boolean).length;
+      counter.textContent = `${words} kata siap ekspor`;
+    }
+
+    // EKSTRAKSI FILE UNGGAHAN (FOTO, PDF, DOCX)
+    async function handleMaterialUpload(file, targetTextareaId) {
+      if (!file) return;
+      const name = file.name || "berkas";
+      const ext = name.split(".").pop().toLowerCase();
+      const statusBox = $("uploadStatusBox");
+      const fileNameEl = $("uploadFileName");
+      const imgWrap = $("uploadImgWrap");
+      const imgPreview = $("uploadImgPreview");
+      const targetTa = $(targetTextareaId || "fUploadedText");
+
+      if (statusBox) statusBox.hidden = false;
+      if (fileNameEl) fileNameEl.textContent = `📄 ${name}`;
+
+      try {
+        if (["jpg", "jpeg", "png", "webp"].includes(ext)) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            uploadedImageDataUrl = e.target.result;
+            if (imgWrap) imgWrap.hidden = false;
+            if (imgPreview) imgPreview.src = uploadedImageDataUrl;
+            if (targetTa && !targetTa.value) {
+              targetTa.value = `Lampiran gambar materi "${name}" siap dianalisis dan disematkan ke dokumen.`;
+            }
+            renderDocumentPreview();
+            showToast("Gambar referensi berhasil dimuat!");
+          };
+          reader.readAsDataURL(file);
+        } else if (ext === "docx" && window.JSZip) {
+          uploadedImageDataUrl = "";
+          if (imgWrap) imgWrap.hidden = true;
+          const arrayBuf = await file.arrayBuffer();
+          const zip = await JSZip.loadAsync(arrayBuf);
+          const xmlStr = await zip.file("word/document.xml")?.async("string");
+          if (xmlStr) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlStr, "application/xml");
+            const paragraphs = [...xmlDoc.getElementsByTagName("w:p")].map(p =>
+              [...p.getElementsByTagName("w:t")].map(t => t.textContent).join("")
+            ).filter(Boolean);
+            const extracted = paragraphs.join("\n").slice(0, 3000);
+            if (targetTa) targetTa.value = extracted;
+            showToast("Isi file Word (.docx) berhasil dibaca! Klik Susun dengan AI untuk merangkainya.");
+            renderDocumentPreview();
+          }
+        } else if (ext === "pdf" && window.pdfjsLib) {
+          uploadedImageDataUrl = "";
+          if (imgWrap) imgWrap.hidden = true;
+          pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+          const arrayBuf = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuf }).promise;
+          let fullText = "";
+          const maxPages = Math.min(pdf.numPages, 5);
+          for (let i = 1; i <= maxPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            fullText += content.items.map(it => it.str).join(" ") + "\n";
+          }
+          if (targetTa) targetTa.value = fullText.trim().slice(0, 3000);
+          showToast("Teks PDF berhasil diekstrak! Klik Susun dengan AI untuk merangkainya.");
+          renderDocumentPreview();
+        } else {
+          showToast("Format file didukung: JPG, PNG, WEBP, PDF, dan DOCX.");
+        }
+      } catch (err) {
+        showToast("Gagal membaca isi berkas, silakan coba berkas lain.");
+      }
+    }
+
+    // EKSPOR KE MICROSOFT WORD (.DOCX)
+    async function exportToWordDocx() {
+      const sheet = $("a4Preview");
+      const d = getFormData();
+      if (!sheet) return;
+
+      const htmlDoc = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office"
+              xmlns:w="urn:schemas-microsoft-com:office:word"
+              xmlns="http://www.w3.org/TR/REC-html40">
+        <head><meta charset="utf-8"><title>${escapeHtml(d.jenis)} PAI</title>
+        <style>
+          body { font-family: "Times New Roman", serif; font-size: 11pt; line-height: 1.45; color: #111; }
+          table { width: 100%; border-collapse: collapse; margin-bottom: 6pt; }
+          th, td { border: 1pt solid #5BA392; padding: 4pt 6pt; vertical-align: top; text-align: left; }
+          th { background-color: #EBF6F1; font-weight: bold; }
+          .doc-sec { background-color: #EBF6F1; border: 1pt solid #5BA392; padding: 4pt 7pt; font-weight: bold; margin-top: 8pt; text-transform: uppercase; }
+          .doc-box { border: 1pt solid #5BA392; padding: 5pt 7pt; }
+          .doc-header { text-align: center; border-bottom: 2pt solid #1B7461; padding-bottom: 6pt; margin-bottom: 8pt; }
+          .doc-arabic { font-family: "Amiri", "Traditional Arabic", serif; font-size: 16pt; direction: rtl; text-align: right; }
+          .doc-sign td { border: 0; width: 50%; padding-top: 14pt; }
+        </style>
+        </head>
+        <body>${sheet.innerHTML}</body>
+        </html>
+      `;
+
+      const blob = new Blob(["\ufeff", htmlDoc], { type: "application/msword;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeTopic = d.topik.replace(/[^a-zA-Z0-9\s-]/g, "").trim().replace(/\s+/g, "_").slice(0, 35) || "PAI";
+      a.href = url;
+      a.download = `${d.jenis.replace(/[^a-zA-Z0-9]/g, "_")}_${safeTopic}.doc`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Berkas Word berhasil diunduh!");
+    }
+
+    function setZoom(val) {
+      currentZoom = Math.max(70, Math.min(130, val));
+      const sheet = $("a4Preview");
+      const label = $("zoomLabel");
+      if (label) label.textContent = `${currentZoom}%`;
+      if (sheet) {
+        sheet.style.transform = currentZoom === 100 ? "none" : `scale(${currentZoom / 100})`;
+      }
+    }
+
+    function saveDraftToLocal() {
+      try {
+        const ids = ["fJenis", "fKurikulum", "fElemen", "fJenjang", "fTopik", "fModel", "fAlokasi", "fPertemuan", "fSemester", "fPenyusun", "fNip", "fSekolah", "fTahun", "fTempatTgl", "fKepsek", "fNipKepsek"];
+        const obj = {};
+        ids.forEach(id => { if ($(id)) obj[id] = $(id).value; });
+        localStorage.setItem("sohib_pai_draft_v2", JSON.stringify(obj));
+      } catch (e) {
+        // Abaikan jika penyimpanan lokal dibatasi
+      }
+    }
+
+    function loadDraftFromLocal() {
+      try {
+        const raw = localStorage.getItem("sohib_pai_draft_v2");
+        if (!raw) return;
+        const obj = JSON.parse(raw);
+        Object.keys(obj).forEach(id => {
+          if ($(id) && obj[id] !== undefined) $(id).value = obj[id];
+        });
+        updateKelasOptions();
+      } catch (e) {
+        // Abaikan error parsing
+      }
+    }
+
+    // EVENT LISTENERS
+    window.addEventListener("DOMContentLoaded", () => {
+      renderOneDayOneAyat();
+      initSelects();
+      loadDraftFromLocal();
+      updateContextualPanels();
+      updateDalilLinks();
+      renderDocumentPreview();
+
+      // Modal Surat & Tujuan Pengembang
+      const modal = $("purposeModal");
+      const openModal = () => modal?.classList.add("open");
+      const closeModal = () => modal?.classList.remove("open");
+      $("btnOpenPurposeModal")?.addEventListener("click", openModal);
+      $("btnHeroPurpose")?.addEventListener("click", openModal);
+      $("btnClosePurposeModal")?.addEventListener("click", closeModal);
+      modal?.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+      // Copy Ayat
+      $("btnCopyAyat")?.addEventListener("click", copyCurrentAyat);
+
+      // Perubahan input formulir
+      $("fJenjang")?.addEventListener("change", () => { updateKelasOptions(); renderDocumentPreview(); });
+      $("fKelas")?.addEventListener("change", () => { updateFaseField(); renderDocumentPreview(); });
+      $("fKurikulum")?.addEventListener("change", () => { updateFaseField(); renderDocumentPreview(); });
+      $("fJenis")?.addEventListener("change", () => { updateContextualPanels(); renderDocumentPreview(); });
+
+      ["fElemen", "fTopik", "fModel", "fAlokasi", "fPertemuan", "fSemester", "fSurah", "fAyat1", "fAyat2", "fKitab", "fNoHadis", "fLkpdTipe", "fLkpdStimulus", "fAsesmenJenis", "fAsesmenMode", "fAsesmenKomposisi", "fUploadedText", "chkEmbedImage", "fPenyusun", "fNip", "fSekolah", "fTahun", "fTempatTgl", "docTheme", "fKepsek", "fNipKepsek", "fArab", "fTerjemah", "chkKopLembaga"].forEach(id => {
+        const el = $(id);
+        if (!el) return;
+        el.addEventListener("input", () => { updateDalilLinks(); renderDocumentPreview(); });
+        el.addEventListener("change", () => { updateDalilLinks(); renderDocumentPreview(); });
+      });
+
+      // Topik Cepat
+      document.querySelectorAll(".topic-chip[data-topic]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if ($("fTopik")) $("fTopik").value = btn.getAttribute("data-topic") || "";
+          if ($("fElemen")) $("fElemen").value = btn.getAttribute("data-elemen") || "Akidah";
+          if ($("fSurah")) $("fSurah").value = btn.getAttribute("data-surah") || "4";
+          if ($("fAyat1")) $("fAyat1").value = btn.getAttribute("data-a1") || "1";
+          if ($("fAyat2")) $("fAyat2").value = btn.getAttribute("data-a2") || "1";
+          aiGeneratedRichData = null;
+          updateDalilLinks();
+          renderDocumentPreview();
+          showToast(`Topik "${btn.textContent.trim()}" dipilih! Klik ✨ Susun dengan AI untuk gagasan lengkap.`);
+        });
+      });
+
+      // Preset Request LKPD & Asesmen
+      document.querySelectorAll(".lkpd-req-preset").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if ($("fLkpdCustomRequest")) $("fLkpdCustomRequest").value = btn.getAttribute("data-req") || "";
+          generateWithGeminiAI(btn.getAttribute("data-req") || "");
+        });
+      });
+
+      document.querySelectorAll(".asesmen-req-preset").forEach(btn => {
+        btn.addEventListener("click", () => {
+          if ($("fAsesmenCustomRequest")) $("fAsesmenCustomRequest").value = btn.getAttribute("data-req") || "";
+          generateWithGeminiAI(btn.getAttribute("data-req") || "");
+        });
+      });
+
+      // Tombol Utama Susun dengan AI
+      $("btnGenerateAi")?.addEventListener("click", () => generateWithGeminiAI());
+      $("btnApplyLkpdRequest")?.addEventListener("click", () => generateWithGeminiAI($("fLkpdCustomRequest")?.value || ""));
+      $("btnApplyAsesmenRequest")?.addEventListener("click", () => generateWithGeminiAI($("fAsesmenCustomRequest")?.value || ""));
+
+      // Upload File Materi & Konversi Modul ke LKPD
+      $("fUploadMateri")?.addEventListener("change", (e) => handleMaterialUpload(e.target.files?.[0], "fUploadedText"));
+      $("fLkpdModulUpload")?.addEventListener("change", async (e) => {
+        await handleMaterialUpload(e.target.files?.[0], "fUploadedText");
+        generateWithGeminiAI("Konversikan materi modul yang diunggah ini menjadi LKPD siswa yang menarik dan interaktif.");
+      });
+
+      $("btnClearUpload")?.addEventListener("click", () => {
+        uploadedImageDataUrl = "";
+        if ($("fUploadMateri")) $("fUploadMateri").value = "";
+        if ($("fUploadedText")) $("fUploadedText").value = "";
+        if ($("uploadStatusBox")) $("uploadStatusBox").hidden = true;
+        renderDocumentPreview();
+      });
+
+      // API Key BYOK untuk GitHub Pages
+      const existingKey = localStorage.getItem("sohib_pai_gemini_key") || "";
+      if (existingKey && $("apiKeyStatus")) {
+        $("apiKeyStatus").textContent = "✓ Gemini API Key pribadi tersimpan aktif di browser Anda.";
+      }
+      $("btnSaveApiKey")?.addEventListener("click", () => {
+        const val = ($("fUserApiKey")?.value || "").trim();
+        if (!val) {
+          showToast("Silakan masukkan Gemini API Key Anda terlebih dahulu.");
+          return;
+        }
+        localStorage.setItem("sohib_pai_gemini_key", val);
+        if ($("apiKeyStatus")) $("apiKeyStatus").textContent = "✓ Gemini API Key pribadi berhasil disimpan di browser Anda.";
+        showToast("API Key pribadi tersimpan aman di browser Anda!");
+      });
+      $("btnClearApiKey")?.addEventListener("click", () => {
+        localStorage.removeItem("sohib_pai_gemini_key");
+        if ($("fUserApiKey")) $("fUserApiKey").value = "";
+        if ($("apiKeyStatus")) $("apiKeyStatus").textContent = "API Key dihapus dari browser.";
+        showToast("API Key dihapus.");
+      });
+
+      // Reset, Salin, Zoom, Ekspor Word
+      $("btnResetForm")?.addEventListener("click", () => {
+        aiGeneratedRichData = null;
+        if ($("fTopik")) $("fTopik").value = "Beriman kepada Kitab-Kitab Allah Swt.";
+        if ($("fLkpdStimulus")) $("fLkpdStimulus").value = "";
+        if ($("fLkpdCustomRequest")) $("fLkpdCustomRequest").value = "";
+        if ($("fAsesmenCustomRequest")) $("fAsesmenCustomRequest").value = "";
+        renderDocumentPreview();
+        showToast("Formulir dikembalikan ke pengaturan awal.");
+      });
+
+      $("btnCopyPrompt")?.addEventListener("click", () => {
+        copyTextFallback(buildRichPrompt(getFormData()), "Prompt kaya gagasan berhasil disalin!");
+      });
+      $("btnCopyDoc")?.addEventListener("click", () => {
+        copyTextFallback($("a4Preview")?.innerText || "", "Seluruh isi dokumen A4 berhasil disalin!");
+      });
+      $("btnDownloadDocx")?.addEventListener("click", exportToWordDocx);
+      $("btnZoomIn")?.addEventListener("click", () => setZoom(currentZoom + 10));
+      $("btnZoomOut")?.addEventListener("click", () => setZoom(currentZoom - 10));
+      $("a4Preview")?.addEventListener("input", updateWordCount);
+    });
+  </script>
+</body>
+</html>
